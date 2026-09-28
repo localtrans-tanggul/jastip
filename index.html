@@ -402,7 +402,7 @@
     <ol class="steps">
       <li><span class="n">1</span><div><h3>Pilih layanan</h3><p>Ride, kirim barang, titip makanan, atau belanja UMKM.</p></div></li>
       <li><span class="n">2</span><div><h3>Isi detail &amp; masukkan keranjang</h3><p>Alamat jemput, tujuan, atau daftar belanja. Boleh lebih dari satu layanan.</p></div></li>
-      <li><span class="n">3</span><div><h3>Checkout via WhatsApp</h3><p>Driver menghubungimu, menginformasikan tarif, lalu langsung meluncur.</p></div></li>
+      <li><span class="n">3</span><div><h3>Checkout via WhatsApp</h3><p>Kirim pesanannya lalu share lokasi. Driver menginformasikan tarif, lalu langsung meluncur.</p></div></li>
     </ol>
   </section>
 
@@ -487,6 +487,7 @@
     <p class="sh-desc" id="shDesc"></p>
     <div class="sh-price"><span>Harga</span><b id="shPrice"></b></div>
     <div class="fields" id="shFields"></div>
+    <div class="note"><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Setelah pesan terkirim, <b>wajib share lokasi</b> di WhatsApp.</span></div>
   </div>
   <div class="sh-foot">
     <button class="btn btn-outline" type="button" id="shAdd"><svg aria-hidden="true"><use href="#i-plus"/></svg><span>Keranjang</span></button>
@@ -510,8 +511,7 @@
     </div>
     <ul class="cart-list" id="cartList"></ul>
     <div class="fields" id="cartForm">
-      <div class="fields-title">Data pemesan <small>(opsional)</small></div>
-      <div class="field"><label for="cNama">Nama</label><input id="cNama" autocomplete="name" placeholder="Nama kamu"></div>
+      <div class="fields-title">Catatan tambahan <small>(opsional)</small></div>
       <div class="field"><label for="cCatatan">Catatan untuk driver</label><textarea id="cCatatan" rows="2" placeholder="Contoh: rumah pagar hijau, dekat masjid"></textarea></div>
     </div>
     <div class="note" id="cartNote"><svg aria-hidden="true"><use href="#i-info"/></svg><span>Tarif diinformasikan lewat WhatsApp setelah pesanan dikirim. Tanpa biaya tersembunyi.</span></div>
@@ -537,58 +537,78 @@
     { id: 'lain',    name: 'Lainnya',      icon: '✍️' }
   ];
 
-  // Katalog layanan. Kolom `fields` menentukan isian yang muncul di detail
-  // dan ikut tersusun di pesan WhatsApp.
+  // Format pesan WhatsApp dari admin Local Trans. Isian di halaman mengikuti
+  // kolom template ini, dan pesan yang terkirim tersusun persis seperti ini.
+  const TEMPLATES = {
+    food: {
+      head: '🍽️untuk mempercepat proses orderan monggo di isi di copas aja 👇',
+      fields: [
+        { k: 'nama', l: 'Nama', ph: 'Nama kamu' },
+        { k: 'barang', l: 'Barang yang di beli', ph: 'Contoh: nasi pecel, es teh', ta: true },
+        { k: 'tempat', l: 'Tempat beli', ph: 'Contoh: Warung Bu Sri' },
+        { k: 'jumlah', l: 'Jumlah', ph: 'Contoh: 2 bungkus' },
+        { k: 'alamat', l: 'Alamat tujuan', ph: 'Alamat pengantaran' }
+      ],
+      foot: 'Food local trans🍽️🥤'
+    },
+    ride: {
+      head: '🛵untuk mempercepat proses orderan monggo di isi di copas aja 👇',
+      fields: [
+        { k: 'nama', l: 'Nama', ph: 'Nama kamu' },
+        { k: 'jemput', l: 'Lokasi jemput', ph: 'Contoh: depan masjid, Jl. ...' },
+        { k: 'tujuan', l: 'Alamat tujuan', ph: 'Mau diantar ke mana' }
+      ]
+    },
+    paket: {
+      head: '📦untuk mempercepat proses orderan monggo di isi di copas aja 👇',
+      fields: [
+        { k: 'nama', l: 'Nama', ph: 'Nama kamu' },
+        { k: 'barang', l: 'Barang yang di kirim', ph: 'Contoh: kardus kecil, ±2 kg' },
+        { k: 'jemput', l: 'Lokasi penjemputan', ph: 'Alamat pengambilan barang' },
+        { k: 'kirim', l: 'Lokasi kirim', ph: 'Alamat penerima' },
+        { k: 'hp', l: 'Nomor penerima', ph: '08xx-xxxx-xxxx', type: 'tel' }
+      ],
+      foot: 'Paket kilat'
+    },
+    lain: {
+      head: '✍️untuk mempercepat proses orderan monggo di isi di copas aja 👇',
+      fields: [
+        { k: 'nama', l: 'Nama', ph: 'Nama kamu' },
+        { k: 'kebutuhan', l: 'Kebutuhan', ph: 'Ceritakan kebutuhanmu', ta: true },
+        { k: 'alamat', l: 'Alamat', ph: 'Alamat jemput / antar' }
+      ]
+    }
+  };
+
+  // Katalog layanan. Kolom `tpl` memilih template pesan di atas.
   const PRODUCTS = [
     { id: 'ride', cat: 'antar', name: 'Ride Motor', sub: 'Ride', emoji: '🛵', tone: '#FFE3D3', img: 'img/ride.jpg',
       desc: 'Antar jemput ke kampus, kantor, pasar, atau stasiun oleh driver warga lokal Jember.',
       price: 'Tarif via WA',
-      fields: [
-        { k: 'jemput', l: 'Alamat jemput', ph: 'Contoh: Jl. Kalimantan, depan gerbang' },
-        { k: 'tujuan', l: 'Tujuan', ph: 'Contoh: Stasiun Jember' },
-        { k: 'waktu', l: 'Waktu jemput', ph: 'Sekarang / jam 07.00' }
-      ] },
+      tpl: 'ride' },
     { id: 'paket', cat: 'kirim', name: 'Kirim Paket', sub: 'Send', emoji: '📦', tone: '#DCE8FF', img: 'img/paket.jpg',
       desc: 'Paket atau barang diambil dari alamatmu, lalu diantar langsung ke alamat tujuan.',
       price: 'Tarif via WA',
-      fields: [
-        { k: 'ambil', l: 'Alamat ambil', ph: 'Alamat pengambilan barang' },
-        { k: 'tujuan', l: 'Alamat tujuan', ph: 'Alamat penerima' },
-        { k: 'barang', l: 'Jenis barang', ph: 'Contoh: kardus kecil, ±2 kg' }
-      ] },
+      tpl: 'paket' },
     { id: 'dokumen', cat: 'kirim', name: 'Kirim Dokumen', sub: 'Send', emoji: '📄', tone: '#E9E3FF', img: 'img/dokumen.jpg',
       desc: 'Berkas, surat, atau map diambil lalu diantar langsung ke alamat tujuan.',
       price: 'Tarif via WA',
-      fields: [
-        { k: 'ambil', l: 'Alamat ambil', ph: 'Alamat pengambilan dokumen' },
-        { k: 'tujuan', l: 'Alamat tujuan', ph: 'Alamat penerima' },
-        { k: 'penerima', l: 'Nama penerima', ph: 'Opsional' }
-      ] },
+      tpl: 'paket' },
     { id: 'makanan', cat: 'makanan', name: 'Titip Beli Makanan', sub: 'Food', emoji: '🍜', tone: '#FFF0C2', img: 'img/makanan.jpg',
       desc: 'Pesan dari warung atau resto favoritmu. Harga makanan sama dengan harga warung.',
       price: 'Harga warung + ongkir', badge: 'Tanpa markup',
-      fields: [
-        { k: 'toko', l: 'Nama warung / resto', ph: 'Contoh: Warung Bu Sri' },
-        { k: 'pesanan', l: 'Pesanan', ph: 'Contoh: 2 nasi pecel, 1 es teh', ta: true },
-        { k: 'antar', l: 'Alamat antar', ph: 'Alamat kamu' }
-      ] },
+      tpl: 'food' },
     { id: 'umkm', cat: 'belanja', name: 'Titip Belanja UMKM', sub: 'Food', emoji: '🛍️', tone: '#D9F5E6', img: 'img/umkm.jpg',
       desc: 'Titip beli produk UMKM favoritmu. Kami tidak mengambil komisi tambahan, harga sama dengan harga toko.',
       price: 'Harga toko + ongkir', badge: '0% komisi',
-      fields: [
-        { k: 'toko', l: 'Nama toko / UMKM', ph: 'Nama toko atau lokasinya' },
-        { k: 'daftar', l: 'Daftar belanja', ph: 'Tulis barang dan jumlahnya', ta: true },
-        { k: 'antar', l: 'Alamat antar', ph: 'Alamat kamu' }
-      ] },
+      tpl: 'food' },
     { id: 'lain', cat: 'lain', name: 'Pesanan Lainnya', sub: 'Custom', emoji: '✍️', tone: '#EEF0F3', img: 'img/lain.jpg',
       desc: 'Butuh bantuan lain? Tulis sendiri kebutuhanmu, admin akan membalas lewat WhatsApp.',
       price: 'Tanya admin',
-      fields: [
-        { k: 'kebutuhan', l: 'Kebutuhan', ph: 'Ceritakan kebutuhanmu', ta: true },
-        { k: 'alamat', l: 'Alamat', ph: 'Alamat jemput / antar' }
-      ] }
+      tpl: 'lain' }
   ];
 
+  PRODUCTS.forEach(p => { p.fields = TEMPLATES[p.tpl].fields; });
   const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
   const catName = id => (CATS.find(c => c.id === id) || {}).name || '';
   const $ = s => document.querySelector(s);
@@ -705,7 +725,7 @@
     if (!p) return;
     sheetId = id;
     editIndex = idx;
-    const data = idx >= 0 ? cart[idx].data : {};
+    const data = idx >= 0 ? cart[idx].data : { nama: store.get('localtrans_nama', '') };
     $('#shImg').style.background = p.tone;
     $('#shPhoto').src = p.img;
     $('#shPhoto').alt = p.name;
@@ -718,7 +738,7 @@
     shFields.innerHTML = '<div class="fields-title">Detail pesanan <small>(boleh dilengkapi di chat)</small></div>' +
       p.fields.map(f => `<div class="field"><label for="f_${f.k}">${esc(f.l)}</label>${
         f.ta ? `<textarea id="f_${f.k}" name="${f.k}" rows="3" placeholder="${esc(f.ph || '')}"></textarea>`
-             : `<input id="f_${f.k}" name="${f.k}" placeholder="${esc(f.ph || '')}" autocomplete="off">`
+             : `<input id="f_${f.k}" name="${f.k}" type="${f.type || 'text'}" placeholder="${esc(f.ph || '')}" autocomplete="${f.k === 'nama' ? 'name' : f.type === 'tel' ? 'tel' : 'off'}">`
       }</div>`).join('');
     p.fields.forEach(f => { shFields.querySelector(`[name="${f.k}"]`).value = data[f.k] || ''; });
     $('#shAdd span').textContent = idx >= 0 ? 'Simpan' : 'Keranjang';
@@ -734,8 +754,10 @@
   };
   sheet.addEventListener('close', () => { if (reopenCart) { reopenCart = false; openDlg(cartDlg); } });
 
+  const rememberName = data => { if (data.nama) store.set('localtrans_nama', data.nama); };
   $('#shAdd').addEventListener('click', () => {
     const data = readFields();
+    rememberName(data);
     if (editIndex >= 0) {
       cart[editIndex].data = data;
       toast('Perubahan disimpan');
@@ -748,15 +770,14 @@
     closeDlg(sheet);
   });
   $('#shBuy').addEventListener('click', () => {
-    sendWA([{ id: sheetId, data: readFields() }]);
+    const data = readFields();
+    rememberName(data);
+    sendWA([{ id: sheetId, data }]);
   });
 
   // ---------- Keranjang ----------
   const cartList = $('#cartList');
-  const nama = $('#cNama');
   const catatan = $('#cCatatan');
-  nama.value = store.get('localtrans_nama', '');
-  nama.addEventListener('change', () => store.set('localtrans_nama', nama.value.trim()));
 
   function renderCart() {
     const n = cart.length;
@@ -790,31 +811,30 @@
   });
   $('#checkout').addEventListener('click', () => {
     if (!cart.length) return;
-    store.set('localtrans_nama', nama.value.trim());
-    sendWA(cart, nama.value.trim(), catatan.value.trim());
+    sendWA(cart, catatan.value.trim());
   });
 
-  // ---------- Susun pesan WhatsApp ----------
-  function buildMessage(items, who, note) {
-    const lines = ['Halo Local Trans Tanggul, saya mau order:', ''];
-    items.forEach((it, i) => {
-      const p = byId[it.id];
-      lines.push(`${i + 1}. *${p.name}*`);
-      p.fields.forEach(f => {
-        const v = (it.data[f.k] || '').trim();
-        if (v) lines.push(`   ${f.l}: ${v.replace(/\n+/g, ', ')}`);
-      });
-      lines.push('');
+  // ---------- Susun pesan WhatsApp (mengikuti TEMPLATES) ----------
+  const oneLine = v => (v || '').trim().replace(/\s*\n+\s*/g, ', ');
+  function block(it) {
+    const t = TEMPLATES[byId[it.id].tpl];
+    const lines = [t.head, ''];
+    t.fields.forEach(f => {
+      const v = oneLine(it.data[f.k]);
+      lines.push(f.l + ':' + (v ? ' ' + v : ''), '');
     });
-    if (who) lines.push('Nama: ' + who);
-    if (note) lines.push('Catatan: ' + note.replace(/\n+/g, ', '));
-    if (who || note) lines.push('');
-    lines.push('Mohon info tarifnya ya. Terima kasih 🙏');
+    lines.push('', 'Wajib share lokasi');
+    if (t.foot) lines.push(t.foot);
     return lines.join('\n');
   }
-  function sendWA(items, who = '', note = '') {
+  function buildMessage(items, note) {
+    let msg = items.map(block).join('\n\n━━━━━━━━━━\n\n');
+    if (note) msg += '\n\nCatatan: ' + oneLine(note);
+    return msg;
+  }
+  function sendWA(items, note = '') {
     const a = document.createElement('a');
-    a.href = waUrl(buildMessage(items, who, note));
+    a.href = waUrl(buildMessage(items, note));
     a.target = '_blank';
     a.rel = 'noopener';
     document.body.appendChild(a);
