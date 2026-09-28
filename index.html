@@ -84,7 +84,9 @@
   .bn .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:4px 9px;border-radius:6px}
   .bn h2,.bn h3{font-size:22px;line-height:1.15;letter-spacing:-.025em;max-width:14ch;margin-top:10px}
   .bn p{font-size:14px;opacity:.9;margin-top:6px;max-width:24ch}
-  .bn-emoji{position:absolute;right:-8px;bottom:-16px;font-size:118px;line-height:1;transform:rotate(-8deg);filter:drop-shadow(0 12px 18px rgba(0,0,0,.25));z-index:-1;pointer-events:none}
+  .bn h2,.bn h3,.bn p{text-shadow:0 1px 14px rgba(0,0,0,.35)}
+  .bn-photo{position:absolute;top:0;right:0;bottom:0;width:52%;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 60%);mask-image:linear-gradient(90deg,transparent 0%,#000 60%)}
+  .bn-photo img{width:100%;height:100%;object-fit:cover;display:block}
   .bn-cta{align-self:flex-start;background:#fff;color:var(--ink);border:0;font-weight:800;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 14px -6px rgba(0,0,0,.4)}
   .bn-cta svg{width:16px;height:16px}
   .bn-1{background:radial-gradient(120% 140% at 0% 0%,#FF7A3D 0%,#E4460F 55%,#A92F07 100%)}
@@ -101,8 +103,7 @@
     .bn-1{grid-row:1 / 3;min-height:360px;padding:40px}
     .bn-1 h2{font-size:42px;max-width:13ch}
     .bn-1 p{font-size:17px}
-    .bn-1 .bn-emoji{font-size:230px;right:10px;bottom:-24px}
-    .bn-2 .bn-emoji,.bn-3 .bn-emoji{font-size:104px}
+    .bn-1 .bn-photo{width:55%}
     .dots{display:none}
   }
 
@@ -137,9 +138,9 @@
   @media (min-width:1000px){.grid{grid-template-columns:repeat(4,1fr);gap:16px}}
   .card{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column;cursor:pointer;transition:transform .15s,box-shadow .15s}
   .card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
-  .card-img{aspect-ratio:4 / 3;display:grid;place-items:center;font-size:58px;position:relative}
-  .card-img span{filter:drop-shadow(0 8px 10px rgba(0,0,0,.15));transition:transform .2s}
-  .card:hover .card-img span{transform:scale(1.08) rotate(-4deg)}
+  .card-img{aspect-ratio:4 / 3;position:relative;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+  .card:hover .card-img img{transform:scale(1.06)}
   .pill{position:absolute;top:8px;left:8px;background:var(--brand);color:#fff;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.02em}
   .card-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
   .card-cat{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
@@ -149,7 +150,7 @@
   .card-add{margin-top:8px;height:38px;border-radius:10px;border:1.5px solid var(--brand);background:#fff;color:var(--brand-600);font-weight:800;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:background .15s,color .15s}
   .card-add svg{width:16px;height:16px}
   .card:hover .card-add,.card-add:focus-visible{background:var(--brand);color:#fff}
-  @media (min-width:900px){.card-img{font-size:72px}.card-body{padding:14px 16px 16px}.card h3{font-size:16.5px}.card p{font-size:13.5px}}
+  @media (min-width:900px){.card-body{padding:14px 16px 16px}.card h3{font-size:16.5px}.card p{font-size:13.5px}}
   .empty-grid{background:#fff;border-radius:var(--r);padding:28px 20px;text-align:center;box-shadow:var(--sh)}
   .empty-grid b{display:block;font-size:17px;margin-bottom:4px}
   .empty-grid p{color:var(--muted);font-size:14px;margin-bottom:14px}
@@ -180,7 +181,11 @@
   footer ul{list-style:none;display:grid;gap:6px}
   footer a,footer button.link{color:#D6DBE6;text-decoration:none;background:none;border:0;cursor:pointer;padding:0;font-size:14px;text-align:left}
   footer a:hover,footer button.link:hover{color:#fff;text-decoration:underline}
-  footer .copy{border-top:1px solid #26304A;padding-top:18px;font-size:13px}
+  footer .copy{border-top:1px solid #26304A;padding-top:18px;font-size:13px;display:grid;gap:10px}
+  .credits summary{cursor:pointer;color:#D6DBE6;font-weight:700;width:max-content}
+  .credits ul{margin-top:10px;gap:6px;font-size:12.5px;line-height:1.5}
+  .credits p{margin-top:8px;font-size:12px;color:#8C95A8}
+  .credits a{font-size:inherit;text-decoration:underline;text-decoration-color:#4A5570}
   @media (min-width:900px){footer{padding-bottom:40px}footer .wrap{grid-template-columns:2fr 1fr 1fr}footer .copy{grid-column:1 / -1}}
 
   /* ---------- Navigasi bawah (HP) ---------- */
@@ -226,8 +231,8 @@
     dialog.drawer[open]{animation:slide .28s cubic-bezier(.2,.9,.3,1)}
   }
   @keyframes slide{from{transform:translateX(48px);opacity:.3}}
-  .sh-img{height:150px;display:grid;place-items:center;font-size:86px;flex:none;position:relative}
-  .sh-img span{filter:drop-shadow(0 12px 14px rgba(0,0,0,.18))}
+  .sh-img{height:210px;flex:none;position:relative;overflow:hidden}
+  .sh-img img{width:100%;height:100%;object-fit:cover;display:block}
   .x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);cursor:pointer;display:grid;place-items:center;box-shadow:var(--sh)}
   .x svg{width:18px;height:18px}
   .sh-body{padding:18px 18px 10px;overflow:auto;flex:1;overscroll-behavior:contain}
@@ -262,7 +267,8 @@
   .link-btn{background:none;border:0;color:var(--brand-600);font-weight:700;font-size:13.5px;cursor:pointer;margin-left:auto;padding:6px}
   .cart-list{list-style:none;display:grid;gap:10px}
   .ci{display:flex;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px}
-  .ci-img{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;font-size:30px;flex:none}
+  .ci-img{width:60px;height:60px;border-radius:12px;overflow:hidden;flex:none}
+  .ci-img img{width:100%;height:100%;object-fit:cover;display:block}
   .ci-body{flex:1;min-width:0}
   .ci-body b{display:block;font-size:15px;line-height:1.3}
   .ci-det{display:grid;gap:1px;margin-top:4px;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
@@ -342,7 +348,7 @@
           <p>Tanpa komisi tambahan dari harga produk.</p>
         </div>
         <button class="bn-cta" type="button" data-open="umkm">Titip sekarang <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-        <span class="bn-emoji" aria-hidden="true">🛍️</span>
+        <span class="bn-photo" aria-hidden="true"><img src="img/tape.jpg" alt=""></span>
       </div>
       <div class="bn bn-2">
         <div>
@@ -350,7 +356,7 @@
           <h3>Ojek lokal Jember, cukup chat WhatsApp</h3>
         </div>
         <button class="bn-cta" type="button" data-open="ride">Pesan ride <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-        <span class="bn-emoji" aria-hidden="true">🛵</span>
+        <span class="bn-photo" aria-hidden="true"><img src="img/ride.jpg" alt=""></span>
       </div>
       <div class="bn bn-3">
         <div>
@@ -358,7 +364,7 @@
           <h3>Kirim paket &amp; dokumen, langsung diantar</h3>
         </div>
         <button class="bn-cta" type="button" data-open="paket">Kirim barang <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-        <span class="bn-emoji" aria-hidden="true">📦</span>
+        <span class="bn-photo" aria-hidden="true"><img src="img/paket.jpg" alt="" loading="lazy"></span>
       </div>
     </div>
     <div class="dots" id="bnDots" aria-hidden="true"><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
@@ -435,7 +441,22 @@
         <li><a href="#faq">Pertanyaan umum</a></li>
       </ul>
     </div>
-    <div class="copy">© <span id="yr">2026</span> Bangjek Jember</div>
+    <div class="copy">
+      <div>© <span id="yr">2026</span> Bangjek Jember</div>
+      <details class="credits">
+        <summary>Kredit foto</summary>
+        <ul>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Pangkalan_ojek.jpg" rel="noopener" target="_blank">Pangkalan ojek</a> — Serenity, <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="noopener" target="_blank">CC BY-SA 3.0</a>, Wikimedia Commons</li>
+          <li><a href="https://www.flickr.com/photos/195311218@N08/52177106715" rel="noopener" target="_blank">Sticking a label onto a parcel for shipping</a> — The Bag N Box Man LTD, <a href="https://creativecommons.org/licenses/by/2.0/" rel="noopener" target="_blank">CC BY 2.0</a>, Flickr</li>
+          <li><a href="https://www.flickr.com/photos/51352098@N00/4335907588" rel="noopener" target="_blank">February 5, 2010 - Paperwork</a> — nerdcoregirl, <a href="https://creativecommons.org/licenses/by-sa/2.0/" rel="noopener" target="_blank">CC BY-SA 2.0</a>, Flickr</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Indonesian_Pecel_Menu.jpg" rel="noopener" target="_blank">Indonesian Pecel Menu</a> — Bajinra, <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="noopener" target="_blank">CC0</a>, Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Suwar-suwir_khas_Jember_1.jpg" rel="noopener" target="_blank">Suwar-suwir khas Jember</a> — Herreads, <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener" target="_blank">CC BY 4.0</a>, Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Proll_tape_jember_topping_keju.jpg" rel="noopener" target="_blank">Proll tape Jember topping keju</a> — Nafisaacdr, <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener" target="_blank">CC BY 4.0</a>, Wikimedia Commons</li>
+          <li><a href="https://www.flickr.com/photos/68532869@N08/17471462035" rel="noopener" target="_blank">Close up person using smartphone</a> — Japanexperterna.se, <a href="https://creativecommons.org/licenses/by-sa/2.0/" rel="noopener" target="_blank">CC BY-SA 2.0</a>, Flickr</li>
+        </ul>
+        <p>Semua foto dipotong dan diperkecil. Foto berlisensi BY-SA tetap dibagikan dengan lisensi yang sama.</p>
+      </details>
+    </div>
   </div>
 </footer>
 
@@ -457,7 +478,7 @@
 
 <!-- Detail layanan -->
 <dialog class="sheet" id="sheet" aria-labelledby="shTitle">
-  <div class="sh-img" id="shImg"><span id="shEmoji"></span>
+  <div class="sh-img" id="shImg"><img id="shPhoto" alt="">
     <button class="x" type="button" data-close aria-label="Tutup"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
   </div>
   <div class="sh-body">
@@ -519,7 +540,7 @@
   // Katalog layanan. Kolom `fields` menentukan isian yang muncul di detail
   // dan ikut tersusun di pesan WhatsApp.
   const PRODUCTS = [
-    { id: 'ride', cat: 'antar', name: 'Ride Motor', sub: 'Ride', emoji: '🛵', tone: '#FFE3D3',
+    { id: 'ride', cat: 'antar', name: 'Ride Motor', sub: 'Ride', emoji: '🛵', tone: '#FFE3D3', img: 'img/ride.jpg',
       desc: 'Antar jemput ke kampus, kantor, pasar, atau stasiun oleh driver warga lokal Jember.',
       price: 'Tarif via WA',
       fields: [
@@ -527,7 +548,7 @@
         { k: 'tujuan', l: 'Tujuan', ph: 'Contoh: Stasiun Jember' },
         { k: 'waktu', l: 'Waktu jemput', ph: 'Sekarang / jam 07.00' }
       ] },
-    { id: 'paket', cat: 'kirim', name: 'Kirim Paket', sub: 'Send', emoji: '📦', tone: '#DCE8FF',
+    { id: 'paket', cat: 'kirim', name: 'Kirim Paket', sub: 'Send', emoji: '📦', tone: '#DCE8FF', img: 'img/paket.jpg',
       desc: 'Paket atau barang diambil dari alamatmu, lalu diantar langsung ke alamat tujuan.',
       price: 'Tarif via WA',
       fields: [
@@ -535,7 +556,7 @@
         { k: 'tujuan', l: 'Alamat tujuan', ph: 'Alamat penerima' },
         { k: 'barang', l: 'Jenis barang', ph: 'Contoh: kardus kecil, ±2 kg' }
       ] },
-    { id: 'dokumen', cat: 'kirim', name: 'Kirim Dokumen', sub: 'Send', emoji: '📄', tone: '#E9E3FF',
+    { id: 'dokumen', cat: 'kirim', name: 'Kirim Dokumen', sub: 'Send', emoji: '📄', tone: '#E9E3FF', img: 'img/dokumen.jpg',
       desc: 'Berkas, surat, atau map diambil lalu diantar langsung ke alamat tujuan.',
       price: 'Tarif via WA',
       fields: [
@@ -543,7 +564,7 @@
         { k: 'tujuan', l: 'Alamat tujuan', ph: 'Alamat penerima' },
         { k: 'penerima', l: 'Nama penerima', ph: 'Opsional' }
       ] },
-    { id: 'makanan', cat: 'makanan', name: 'Titip Beli Makanan', sub: 'Food', emoji: '🍜', tone: '#FFF0C2',
+    { id: 'makanan', cat: 'makanan', name: 'Titip Beli Makanan', sub: 'Food', emoji: '🍜', tone: '#FFF0C2', img: 'img/makanan.jpg',
       desc: 'Pesan dari warung atau resto favoritmu. Harga makanan sama dengan harga warung.',
       price: 'Harga warung + ongkir', badge: 'Tanpa markup',
       fields: [
@@ -551,7 +572,7 @@
         { k: 'pesanan', l: 'Pesanan', ph: 'Contoh: 2 nasi pecel, 1 es teh', ta: true },
         { k: 'antar', l: 'Alamat antar', ph: 'Alamat kamu' }
       ] },
-    { id: 'umkm', cat: 'belanja', name: 'Titip Belanja UMKM', sub: 'Food', emoji: '🛍️', tone: '#D9F5E6',
+    { id: 'umkm', cat: 'belanja', name: 'Titip Belanja UMKM', sub: 'Food', emoji: '🛍️', tone: '#D9F5E6', img: 'img/umkm.jpg',
       desc: 'Titip beli produk UMKM favoritmu. Kami tidak mengambil komisi tambahan, harga sama dengan harga toko.',
       price: 'Harga toko + ongkir', badge: '0% komisi',
       fields: [
@@ -559,7 +580,7 @@
         { k: 'daftar', l: 'Daftar belanja', ph: 'Tulis barang dan jumlahnya', ta: true },
         { k: 'antar', l: 'Alamat antar', ph: 'Alamat kamu' }
       ] },
-    { id: 'lain', cat: 'lain', name: 'Pesanan Lainnya', sub: 'Custom', emoji: '✍️', tone: '#EEF0F3',
+    { id: 'lain', cat: 'lain', name: 'Pesanan Lainnya', sub: 'Custom', emoji: '✍️', tone: '#EEF0F3', img: 'img/lain.jpg',
       desc: 'Butuh bantuan lain? Tulis sendiri kebutuhanmu, admin akan membalas lewat WhatsApp.',
       price: 'Tanya admin',
       fields: [
@@ -617,7 +638,7 @@
     );
     grid.innerHTML = list.map(p => `
       <article class="card" data-id="${p.id}">
-        <div class="card-img" style="background:${p.tone}"><span aria-hidden="true">${p.emoji}</span>${p.badge ? `<b class="pill">${esc(p.badge)}</b>` : ''}</div>
+        <div class="card-img" style="background:${p.tone}"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy" width="800" height="600">${p.badge ? `<b class="pill">${esc(p.badge)}</b>` : ''}</div>
         <div class="card-body">
           <span class="card-cat">${esc(catName(p.cat))}</span>
           <h3>${esc(p.name)}</h3>
@@ -686,7 +707,8 @@
     editIndex = idx;
     const data = idx >= 0 ? cart[idx].data : {};
     $('#shImg').style.background = p.tone;
-    $('#shEmoji').textContent = p.emoji;
+    $('#shPhoto').src = p.img;
+    $('#shPhoto').alt = p.name;
     $('#shCat').textContent = catName(p.cat) + ' · ' + p.sub;
     $('#shBadge').textContent = p.badge || '';
     $('#shBadge').hidden = !p.badge;
@@ -750,7 +772,7 @@
       const det = p.fields.filter(f => it.data[f.k]).map(f => `<span>${esc(f.l)}: ${esc(it.data[f.k])}</span>`).join('')
         || '<span>Detail belum diisi, bisa dijelaskan di chat.</span>';
       return `<li class="ci">
-        <span class="ci-img" style="background:${p.tone}" aria-hidden="true">${p.emoji}</span>
+        <span class="ci-img" style="background:${p.tone}" aria-hidden="true"><img src="${p.img}" alt=""></span>
         <div class="ci-body"><b>${esc(p.name)}</b><div class="ci-det">${det}</div>
           <div class="ci-act"><button type="button" data-edit="${i}">Ubah</button><button type="button" data-del="${i}">Hapus</button></div>
         </div></li>`;
