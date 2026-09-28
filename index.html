@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bangjek Jember — Jastip &amp; Ojek Online Lokal</title>
+<meta name="description" content="Bangjek Jember: ojek online dan jastip lokal Jember. Pilih layanan, masukkan keranjang, lalu checkout lewat WhatsApp. Tanpa aplikasi, tanpa biaya tersembunyi.">
+<meta name="theme-color" content="#E4460F">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bangjek Jember">
+<meta property="og:title" content="Bangjek Jember — Jastip & Ojek Online Lokal">
+<meta property="og:description" content="Pilih layanan, masukkan keranjang, checkout via WhatsApp. Ride, kirim paket, titip makanan, dan belanja UMKM.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E4460F'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-weight='900' font-size='26' fill='%23fff'%3EBJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Bangjek Jember",
+  "description": "Ojek online dan jastip lokal Jember. Order lewat WhatsApp.",
+  "telephone": "+6281246103897",
+  "areaServed": { "@type": "City", "name": "Jember" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Jember", "addressRegion": "Jawa Timur", "addressCountry": "ID" }
+}
+</script>
+<style>
+  :root{
+    --bg:#F3F4F6; --surface:#FFFFFF; --ink:#151A24; --ink-2:#394150; --muted:#6B7280; --line:#E6E8EC;
+    --brand:#E4460F; --brand-600:#C23A08; --brand-50:#FFF2EB; --brand-100:#FFDCCB;
+    --navy:#141B2D; --wa:#25D366; --wa-600:#12924A;
+    --r:16px; --r-lg:20px;
+    --sh:0 1px 2px rgba(16,24,40,.05),0 2px 6px rgba(16,24,40,.06);
+    --sh-lg:0 16px 36px -14px rgba(16,24,40,.28);
+    --wrap:1200px; --gut:16px; --bnav:64px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none!important}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:128px;overflow-x:clip}
+  html.lock{overflow:hidden}
+  body{font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  svg{display:block}
+  a{color:inherit}
+  button{font:inherit;color:inherit}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:8px}
+  [tabindex="-1"]:focus{outline:none}
+  @media (min-width:900px){html{scroll-padding-top:90px}}
+
+  /* ---------- Bar pengumuman & header ---------- */
+  .announce{background:var(--navy);color:#E6E9F0;font-size:13px;text-align:center;padding:8px var(--gut)}
+  .announce a{color:#fff;font-weight:700}
+  .hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .hdr-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding-top:10px;padding-bottom:10px}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:1;min-width:0}
+  .logo-mark{width:40px;height:40px;border-radius:12px;background:var(--brand);color:#fff;font-weight:800;font-size:15px;letter-spacing:-.02em;display:grid;place-items:center;flex:none;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15)}
+  .logo b{display:block;font-size:18px;line-height:1.1;letter-spacing:-.02em}
+  .logo small{display:block;font-size:12px;color:var(--muted);font-weight:500}
+  .search{order:3;flex:1 1 100%;display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid transparent;border-radius:12px;padding:0 12px;height:44px;transition:border-color .15s,background .15s}
+  .search:focus-within{border-color:var(--brand);background:#fff}
+  .search svg{width:19px;height:19px;color:var(--muted);flex:none}
+  .search input{border:0;background:transparent;font:inherit;font-size:16px;flex:1;min-width:0;outline:none;color:var(--ink)}
+  .search input::placeholder{color:#9AA1AD}
+  .hdr-nav{display:none}
+  .cart-btn{position:relative;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+  .cart-btn svg{width:22px;height:22px}
+  .badge{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--brand);color:#fff;font-size:11.5px;font-weight:800;line-height:1;display:grid;place-items:center;border:2px solid #fff}
+  @media (min-width:900px){
+    .hdr-row{flex-wrap:nowrap;gap:24px;padding-top:12px;padding-bottom:12px}
+    .logo{flex:0 0 auto}
+    .search{order:0;flex:1 1 auto;max-width:520px}
+    .hdr-nav{display:flex;gap:22px;margin-left:auto;font-weight:700;font-size:14.5px}
+    .hdr-nav a{text-decoration:none;color:var(--ink-2)}
+    .hdr-nav a:hover{color:var(--brand-600)}
+  }
+
+  /* ---------- Banner promo ---------- */
+  .banners{padding-top:16px}
+  .bn-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:var(--r-lg)}
+  .bn-track::-webkit-scrollbar{display:none}
+  .bn{flex:0 0 100%;scroll-snap-align:start;border-radius:var(--r-lg);padding:22px 20px;min-height:184px;position:relative;overflow:hidden;color:#fff;display:flex;flex-direction:column;justify-content:space-between;gap:16px;isolation:isolate}
+  .bn .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:4px 9px;border-radius:6px}
+  .bn h2,.bn h3{font-size:22px;line-height:1.15;letter-spacing:-.025em;max-width:14ch;margin-top:10px}
+  .bn p{font-size:14px;opacity:.9;margin-top:6px;max-width:24ch}
+  .bn-emoji{position:absolute;right:-8px;bottom:-16px;font-size:118px;line-height:1;transform:rotate(-8deg);filter:drop-shadow(0 12px 18px rgba(0,0,0,.25));z-index:-1;pointer-events:none}
+  .bn-cta{align-self:flex-start;background:#fff;color:var(--ink);border:0;font-weight:800;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 6px 14px -6px rgba(0,0,0,.4)}
+  .bn-cta svg{width:16px;height:16px}
+  .bn-1{background:radial-gradient(120% 140% at 0% 0%,#FF7A3D 0%,#E4460F 55%,#A92F07 100%)}
+  .bn-2{background:radial-gradient(120% 140% at 0% 0%,#2B3A5E 0%,#141B2D 70%)}
+  .bn-3{background:radial-gradient(120% 140% at 0% 0%,#18B892 0%,#0B7A60 75%)}
+  .bn::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-120px;background:rgba(255,255,255,.08);z-index:-2}
+  .dots{display:flex;justify-content:center;gap:6px;margin-top:10px}
+  .dots button{width:7px;height:7px;border-radius:999px;border:0;background:#CBD0D8;padding:0;cursor:pointer;transition:width .2s,background .2s}
+  .dots button[aria-current="true"]{width:22px;background:var(--brand)}
+  @media (min-width:900px){
+    .banners{padding-top:24px}
+    .bn-track{display:grid;grid-template-columns:1.9fr 1fr;grid-template-rows:1fr 1fr;gap:16px;overflow:visible}
+    .bn{min-height:0}
+    .bn-1{grid-row:1 / 3;min-height:360px;padding:40px}
+    .bn-1 h2{font-size:42px;max-width:13ch}
+    .bn-1 p{font-size:17px}
+    .bn-1 .bn-emoji{font-size:230px;right:10px;bottom:-24px}
+    .bn-2 .bn-emoji,.bn-3 .bn-emoji{font-size:104px}
+    .dots{display:none}
+  }
+
+  /* ---------- Keunggulan ---------- */
+  .trust{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+  .trust div{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:12px;font-size:13px;font-weight:700;line-height:1.3;box-shadow:var(--sh)}
+  .trust i{width:36px;height:36px;border-radius:10px;background:var(--brand-50);color:var(--brand-600);display:grid;place-items:center;flex:none}
+  .trust svg{width:20px;height:20px}
+  @media (min-width:900px){.trust{grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}.trust div{padding:14px 16px;font-size:14px}}
+
+  /* ---------- Section umum ---------- */
+  .sec{margin-top:30px}
+  .sec-h{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .sec-h h2{font-size:20px;letter-spacing:-.02em;line-height:1.2}
+  .sec-h p,.sec-h span{font-size:13.5px;color:var(--muted)}
+  @media (min-width:900px){.sec{margin-top:44px}.sec-h h2{font-size:24px}}
+
+  /* ---------- Kategori ---------- */
+  .cats{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--gut) * -1);padding:2px var(--gut) 6px}
+  .cats::-webkit-scrollbar{display:none}
+  .cat{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:7px;width:78px;background:none;border:0;cursor:pointer;color:var(--ink-2)}
+  .cat i{width:62px;height:62px;border-radius:19px;background:#fff;display:grid;place-items:center;font-style:normal;font-size:28px;box-shadow:var(--sh);border:2px solid transparent;transition:border-color .15s,background .15s,transform .15s}
+  .cat:hover i{transform:translateY(-2px)}
+  .cat span{font-size:12.5px;font-weight:700;text-align:center;line-height:1.2}
+  .cat[aria-pressed="true"] i{border-color:var(--brand);background:var(--brand-50)}
+  .cat[aria-pressed="true"] span{color:var(--brand-600)}
+  @media (min-width:900px){.cats{gap:14px}.cat{width:96px}.cat i{width:72px;height:72px;font-size:32px}}
+
+  /* ---------- Katalog ---------- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media (min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+  @media (min-width:1000px){.grid{grid-template-columns:repeat(4,1fr);gap:16px}}
+  .card{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column;cursor:pointer;transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+  .card-img{aspect-ratio:4 / 3;display:grid;place-items:center;font-size:58px;position:relative}
+  .card-img span{filter:drop-shadow(0 8px 10px rgba(0,0,0,.15));transition:transform .2s}
+  .card:hover .card-img span{transform:scale(1.08) rotate(-4deg)}
+  .pill{position:absolute;top:8px;left:8px;background:var(--brand);color:#fff;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.02em}
+  .card-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
+  .card-cat{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .card h3{font-size:15px;line-height:1.3;letter-spacing:-.01em}
+  .card p{font-size:12.5px;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .price{font-size:13.5px;font-weight:800;color:var(--brand-600);margin-top:auto;padding-top:6px}
+  .card-add{margin-top:8px;height:38px;border-radius:10px;border:1.5px solid var(--brand);background:#fff;color:var(--brand-600);font-weight:800;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:background .15s,color .15s}
+  .card-add svg{width:16px;height:16px}
+  .card:hover .card-add,.card-add:focus-visible{background:var(--brand);color:#fff}
+  @media (min-width:900px){.card-img{font-size:72px}.card-body{padding:14px 16px 16px}.card h3{font-size:16.5px}.card p{font-size:13.5px}}
+  .empty-grid{background:#fff;border-radius:var(--r);padding:28px 20px;text-align:center;box-shadow:var(--sh)}
+  .empty-grid b{display:block;font-size:17px;margin-bottom:4px}
+  .empty-grid p{color:var(--muted);font-size:14px;margin-bottom:14px}
+
+  /* ---------- Cara order ---------- */
+  .steps{list-style:none;display:grid;gap:10px}
+  @media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr);gap:16px}}
+  .steps li{background:#fff;border-radius:var(--r);padding:16px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--sh)}
+  .steps .n{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+  .steps h3{font-size:15.5px;line-height:1.3;margin-top:2px}
+  .steps p{font-size:13.5px;color:var(--muted);margin-top:2px}
+
+  /* ---------- FAQ ---------- */
+  .faq{background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+  .faq details+details{border-top:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;padding:16px;font-weight:700;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:24px;color:var(--brand);font-weight:500;line-height:1;transition:transform .2s;flex:none}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq details p{padding:0 16px 16px;color:var(--ink-2);font-size:14.5px}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--navy);color:#AEB6C6;margin-top:44px;padding:32px 0 calc(var(--bnav) + 110px + env(safe-area-inset-bottom));font-size:14px}
+  footer .wrap{display:grid;gap:24px}
+  footer .logo{color:#fff}
+  footer .logo small{color:#AEB6C6}
+  footer h4{color:#fff;font-size:14px;margin-bottom:10px}
+  footer ul{list-style:none;display:grid;gap:6px}
+  footer a,footer button.link{color:#D6DBE6;text-decoration:none;background:none;border:0;cursor:pointer;padding:0;font-size:14px;text-align:left}
+  footer a:hover,footer button.link:hover{color:#fff;text-decoration:underline}
+  footer .copy{border-top:1px solid #26304A;padding-top:18px;font-size:13px}
+  @media (min-width:900px){footer{padding-bottom:40px}footer .wrap{grid-template-columns:2fr 1fr 1fr}footer .copy{grid-column:1 / -1}}
+
+  /* ---------- Navigasi bawah (HP) ---------- */
+  .bnav{position:fixed;left:0;right:0;bottom:0;z-index:45;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);height:calc(var(--bnav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+  .bnav a,.bnav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted);text-decoration:none;background:none;border:0;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent}
+  .bnav svg{width:23px;height:23px}
+  .bnav .on{color:var(--brand-600)}
+  .bnav .badge{top:6px;right:calc(50% - 24px)}
+  @media (min-width:900px){.bnav{display:none}}
+
+  .cartbar{position:fixed;left:12px;right:12px;bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 10px);z-index:44;background:var(--brand);color:#fff;border-radius:14px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;border:0;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 14px 26px -10px rgba(228,70,15,.7);animation:rise .3s ease}
+  .cartbar span{display:flex;align-items:center;gap:10px}
+  .cartbar svg{width:20px;height:20px}
+  @keyframes rise{from{transform:translateY(20px);opacity:0}}
+  @media (min-width:900px){.cartbar{display:none!important}}
+
+  /* ---------- Tombol WhatsApp mengambang ---------- */
+  .wa-float{position:fixed;z-index:46;right:16px;bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 16px);width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,#2BD46F,#12924A);color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;box-shadow:0 12px 26px -8px rgba(18,146,74,.7);transition:bottom .25s ease,transform .2s ease}
+  .wa-float:hover{transform:translateY(-2px)}
+  .wa-float svg{width:30px;height:30px;flex:none}
+  .wa-float .lbl{display:none}
+  .wa-float::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;animation:ring 2.4s ease-out infinite}
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6)}70%,100%{box-shadow:0 0 0 18px rgba(37,211,102,0)}}
+  body.has-cart .wa-float{bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 78px)}
+  @media (min-width:900px){
+    .wa-float,body.has-cart .wa-float{right:28px;bottom:28px;width:auto;height:58px;padding:0 22px 0 16px;border-radius:999px}
+    .wa-float .lbl{display:inline}
+  }
+
+  /* ---------- Toast ---------- */
+  .toast{position:fixed;left:50%;bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 80px);transform:translate(-50%,20px);background:var(--navy);color:#fff;font-size:14px;font-weight:700;padding:11px 16px;border-radius:12px;box-shadow:var(--sh-lg);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;max-width:calc(100% - 32px);text-align:center}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  @media (min-width:900px){.toast{bottom:auto;top:92px}}
+
+  /* ---------- Sheet (detail layanan & keranjang) ---------- */
+  dialog.sheet{border:0;padding:0;background:#fff;color:var(--ink);width:100%;max-width:100%;max-height:92vh;max-height:92dvh;margin:auto 0 0;border-radius:22px 22px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.2);overflow:hidden}
+  dialog.sheet[open]{display:flex;flex-direction:column;animation:up .28s cubic-bezier(.2,.9,.3,1)}
+  dialog.sheet::backdrop{background:rgba(15,20,30,.55)}
+  @keyframes up{from{transform:translateY(48px);opacity:.3}}
+  @media (min-width:720px){dialog.sheet{max-width:520px;margin:auto;border-radius:22px;max-height:88vh}}
+  @media (min-width:900px){
+    dialog.drawer{margin:0 0 0 auto;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;max-width:440px;border-radius:0}
+    dialog.drawer[open]{animation:slide .28s cubic-bezier(.2,.9,.3,1)}
+  }
+  @keyframes slide{from{transform:translateX(48px);opacity:.3}}
+  .sh-img{height:150px;display:grid;place-items:center;font-size:86px;flex:none;position:relative}
+  .sh-img span{filter:drop-shadow(0 12px 14px rgba(0,0,0,.18))}
+  .x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);cursor:pointer;display:grid;place-items:center;box-shadow:var(--sh)}
+  .x svg{width:18px;height:18px}
+  .sh-body{padding:18px 18px 10px;overflow:auto;flex:1;overscroll-behavior:contain}
+  .sh-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .sh-meta .card-cat{font-size:11.5px}
+  .sh-meta .pill{position:static}
+  .sh-title{font-size:23px;letter-spacing:-.02em;line-height:1.2;margin-top:6px}
+  .sh-desc{color:var(--ink-2);font-size:14.5px;margin-top:6px}
+  .sh-price{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:13.5px;color:var(--muted)}
+  .sh-price b{color:var(--brand-600);font-size:15px}
+  .fields{display:grid;gap:12px;margin-top:16px}
+  .fields-title{font-size:14px;font-weight:800}
+  .fields-title small{font-weight:500;color:var(--muted)}
+  .field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink-2)}
+  .field input,.field textarea{width:100%;font:inherit;font-size:16px;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none;resize:vertical;transition:border-color .15s,box-shadow .15s}
+  .field input:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-100)}
+  .sh-foot{display:flex;gap:10px;padding:12px 18px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff;flex:none}
+  .btn{flex:1;min-height:50px;border-radius:12px;font-weight:800;font-size:15px;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;padding:0 14px;white-space:nowrap;transition:background .15s,transform .1s}
+  .btn:active{transform:scale(.98)}
+  .btn svg{width:20px;height:20px;flex:none}
+  .sh-foot .btn-outline{flex:0 0 auto;padding:0 16px}
+  .btn-outline{background:#fff;color:var(--brand-600);box-shadow:inset 0 0 0 1.5px var(--brand)}
+  .btn-outline:hover{background:var(--brand-50)}
+  .btn-brand{background:var(--brand);color:#fff}
+  .btn-wa{background:var(--wa-600);color:#fff}
+  .btn-wa:hover{background:#0F7F40}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+
+  .cart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line);flex:none}
+  .cart-head h2{font-size:19px}
+  .cart-head .x{position:static;box-shadow:none;background:var(--bg)}
+  .link-btn{background:none;border:0;color:var(--brand-600);font-weight:700;font-size:13.5px;cursor:pointer;margin-left:auto;padding:6px}
+  .cart-list{list-style:none;display:grid;gap:10px}
+  .ci{display:flex;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px}
+  .ci-img{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;font-size:30px;flex:none}
+  .ci-body{flex:1;min-width:0}
+  .ci-body b{display:block;font-size:15px;line-height:1.3}
+  .ci-det{display:grid;gap:1px;margin-top:4px;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+  .ci-act{display:flex;gap:14px;margin-top:8px}
+  .ci-act button{background:none;border:0;font-size:13px;font-weight:800;cursor:pointer;padding:0;color:var(--brand-600)}
+  .ci-act button+button{color:var(--muted)}
+  .empty-cart{text-align:center;padding:32px 8px}
+  .empty-cart .big{font-size:56px;line-height:1}
+  .empty-cart b{display:block;font-size:17px;margin-top:10px}
+  .empty-cart p{color:var(--muted);font-size:14px;margin:4px 0 18px}
+  .note{display:flex;gap:10px;background:var(--brand-50);color:#7A2A0A;border-radius:12px;padding:12px 14px;font-size:13.5px;margin-top:16px}
+  .note svg{width:18px;height:18px;flex:none;margin-top:2px}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-wa" viewBox="0 0 24 24">
+    <path d="M12 2.8a9.2 9.2 0 0 0-7.95 13.8L2.8 21.2l4.72-1.22A9.2 9.2 0 1 0 12 2.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+    <path transform="translate(6.96 7.2) scale(.42)" fill="currentColor" d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+  </symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></g></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.3 11.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L20.6 8H6.1"/><circle cx="9.5" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></g></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3.5 10.5L12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/></g></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></g></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.8"/><circle cx="12" cy="17.2" r=".6" fill="currentColor"/></g></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r=".7" fill="currentColor"/></g></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M20 12.5a7.5 7.5 0 0 1-11 6.6L4 20l1.1-4.3A7.5 7.5 0 1 1 20 12.5z"/><path d="M9 11h6M9 14h4"/></g></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.8" cy="7.8" r="1.6"/></g></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M4.5 10.5V20h15v-9.5"/><path d="M3 10l2-6h14l2 6a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M10 20v-5h4v5"/></g></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.2a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.6"/></g></symbol>
+</svg>
+
+<div class="announce">🛵 Order tanpa aplikasi — cukup lewat WhatsApp <a data-wa href="https://wa.me/6281246103897">+62 812-4610-3897</a></div>
+
+<header class="hdr" id="top">
+  <div class="wrap hdr-row">
+    <a class="logo" href="#top" aria-label="Bangjek Jember, ke atas">
+      <span class="logo-mark" aria-hidden="true">BJ</span>
+      <span><b>Bangjek Jember</b><small>Jastip &amp; Ojek Lokal</small></span>
+    </a>
+    <label class="search">
+      <svg aria-hidden="true"><use href="#i-search"/></svg>
+      <span class="sr">Cari layanan</span>
+      <input id="q" type="search" placeholder="Cari: ride, paket, makanan, UMKM…" autocomplete="off" enterkeyhint="search">
+    </label>
+    <nav class="hdr-nav" aria-label="Menu utama">
+      <a href="#layanan">Layanan</a>
+      <a href="#cara">Cara Order</a>
+      <a href="#faq">Bantuan</a>
+    </nav>
+    <button class="cart-btn" type="button" data-open-cart aria-label="Buka keranjang">
+      <svg aria-hidden="true"><use href="#i-cart"/></svg>
+      <span class="badge" data-count hidden>0</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <h1 class="sr">Bangjek Jember — Jastip &amp; Ojek Online Lokal Jember</h1>
+
+  <!-- Banner promo -->
+  <section class="wrap banners" aria-label="Sorotan layanan">
+    <div class="bn-track" id="bnTrack">
+      <div class="bn bn-1">
+        <div>
+          <span class="tag">Jastip UMKM</span>
+          <h2>Titip belanja UMKM, harga sama dengan harga toko</h2>
+          <p>Tanpa komisi tambahan dari harga produk.</p>
+        </div>
+        <button class="bn-cta" type="button" data-open="umkm">Titip sekarang <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="bn-emoji" aria-hidden="true">🛍️</span>
+      </div>
+      <div class="bn bn-2">
+        <div>
+          <span class="tag">Ride</span>
+          <h3>Ojek lokal Jember, cukup chat WhatsApp</h3>
+        </div>
+        <button class="bn-cta" type="button" data-open="ride">Pesan ride <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="bn-emoji" aria-hidden="true">🛵</span>
+      </div>
+      <div class="bn bn-3">
+        <div>
+          <span class="tag">Send</span>
+          <h3>Kirim paket &amp; dokumen, langsung diantar</h3>
+        </div>
+        <button class="bn-cta" type="button" data-open="paket">Kirim barang <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <span class="bn-emoji" aria-hidden="true">📦</span>
+      </div>
+    </div>
+    <div class="dots" id="bnDots" aria-hidden="true"><button tabindex="-1"></button><button tabindex="-1"></button><button tabindex="-1"></button></div>
+  </section>
+
+  <!-- Keunggulan -->
+  <section class="wrap trust" aria-label="Keunggulan">
+    <div><i><svg aria-hidden="true"><use href="#i-chat"/></svg></i>Tanpa instal aplikasi</div>
+    <div><i><svg aria-hidden="true"><use href="#i-tag"/></svg></i>Tanpa biaya tersembunyi</div>
+    <div><i><svg aria-hidden="true"><use href="#i-store"/></svg></i>0% komisi UMKM</div>
+    <div><i><svg aria-hidden="true"><use href="#i-pin"/></svg></i>Driver warga Jember</div>
+  </section>
+
+  <!-- Kategori -->
+  <section class="wrap sec" id="kategori">
+    <div class="sec-h"><h2>Kategori</h2></div>
+    <div class="cats" id="cats" role="group" aria-label="Filter kategori"></div>
+  </section>
+
+  <!-- Katalog -->
+  <section class="wrap sec" id="layanan">
+    <div class="sec-h"><h2 id="gridTitle">Semua Layanan</h2><span id="gridCount"></span></div>
+    <div class="grid" id="grid"></div>
+    <div class="empty-grid" id="gridEmpty" hidden>
+      <b>Layanan tidak ditemukan</b>
+      <p>Tulis sendiri kebutuhanmu, admin akan membalas lewat WhatsApp.</p>
+      <button class="btn btn-brand" type="button" data-open="lain" style="display:inline-flex;flex:none">Tulis pesanan lain</button>
+    </div>
+    <noscript><p style="margin-top:12px">Pesan langsung lewat WhatsApp: <a href="https://wa.me/6281246103897">+62 812-4610-3897</a></p></noscript>
+  </section>
+
+  <!-- Cara order -->
+  <section class="wrap sec" id="cara">
+    <div class="sec-h"><h2>Cara Order</h2><p>Semudah belanja online</p></div>
+    <ol class="steps">
+      <li><span class="n">1</span><div><h3>Pilih layanan</h3><p>Ride, kirim barang, titip makanan, atau belanja UMKM.</p></div></li>
+      <li><span class="n">2</span><div><h3>Isi detail &amp; masukkan keranjang</h3><p>Alamat jemput, tujuan, atau daftar belanja. Boleh lebih dari satu layanan.</p></div></li>
+      <li><span class="n">3</span><div><h3>Checkout via WhatsApp</h3><p>Driver menghubungimu, menginformasikan tarif, lalu langsung meluncur.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap sec" id="faq">
+    <div class="sec-h"><h2>Pertanyaan Umum</h2></div>
+    <div class="faq">
+      <details><summary>Berapa tarifnya?</summary><p>Tarif diinformasikan lewat WhatsApp sebelum driver berangkat. Harga jujur dan ramah di kantong, tanpa biaya tersembunyi.</p></details>
+      <details><summary>Apakah harus instal aplikasi?</summary><p>Tidak. Semua pesanan cukup lewat chat WhatsApp. Halaman ini hanya membantu menyusun pesananmu supaya rapi.</p></details>
+      <details><summary>Apakah harga makanan dan belanjaan dinaikkan?</summary><p>Tidak. Kami tidak mengambil komisi tambahan dari harga makanan atau produk UMKM yang kamu pesan. Harga belanjaan sama dengan harga toko.</p></details>
+      <details><summary>Siapa driver Bangjek?</summary><p>Mitra driver kami adalah warga lokal Jember yang ramah, sopan, dan menguasai setiap sudut kota.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">BJ</span><span><b>Bangjek Jember</b><small>Jastip &amp; Ojek Lokal</small></span></a>
+      <p style="margin-top:14px;max-width:38ch">Ojek online dan jastip lokal asli Jember. Los ndak rewel, murah, ramah, dan bangga Jember!</p>
+    </div>
+    <div>
+      <h4>Layanan</h4>
+      <ul>
+        <li><button class="link" type="button" data-open="ride">Ride Motor</button></li>
+        <li><button class="link" type="button" data-open="paket">Kirim Paket</button></li>
+        <li><button class="link" type="button" data-open="makanan">Titip Beli Makanan</button></li>
+        <li><button class="link" type="button" data-open="umkm">Titip Belanja UMKM</button></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Hubungi Kami</h4>
+      <ul>
+        <li><a data-wa href="https://wa.me/6281246103897">WhatsApp +62 812-4610-3897</a></li>
+        <li><a href="#cara">Cara order</a></li>
+        <li><a href="#faq">Pertanyaan umum</a></li>
+      </ul>
+    </div>
+    <div class="copy">© <span id="yr">2026</span> Bangjek Jember</div>
+  </div>
+</footer>
+
+<button class="cartbar" type="button" id="cartbar" data-open-cart hidden>
+  <span><svg aria-hidden="true"><use href="#i-cart"/></svg><span id="cartbarText">0 layanan di keranjang</span></span>
+  <span>Checkout <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</button>
+
+<nav class="bnav" aria-label="Navigasi bawah">
+  <a href="#top" class="on"><svg aria-hidden="true"><use href="#i-home"/></svg>Beranda</a>
+  <a href="#kategori"><svg aria-hidden="true"><use href="#i-grid"/></svg>Kategori</a>
+  <button type="button" data-open-cart><svg aria-hidden="true"><use href="#i-cart"/></svg>Keranjang<span class="badge" data-count hidden>0</span></button>
+  <a href="#faq"><svg aria-hidden="true"><use href="#i-help"/></svg>Bantuan</a>
+</nav>
+
+<a class="wa-float" data-wa href="https://wa.me/6281246103897" aria-label="Chat WhatsApp Bangjek Jember">
+  <svg aria-hidden="true"><use href="#i-wa"/></svg><span class="lbl">Chat Admin</span>
+</a>
+
+<!-- Detail layanan -->
+<dialog class="sheet" id="sheet" aria-labelledby="shTitle">
+  <div class="sh-img" id="shImg"><span id="shEmoji"></span>
+    <button class="x" type="button" data-close aria-label="Tutup"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sh-body">
+    <div class="sh-meta"><span class="card-cat" id="shCat"></span><span class="pill" id="shBadge" hidden></span></div>
+    <h2 class="sh-title" id="shTitle" tabindex="-1" autofocus></h2>
+    <p class="sh-desc" id="shDesc"></p>
+    <div class="sh-price"><span>Harga</span><b id="shPrice"></b></div>
+    <div class="fields" id="shFields"></div>
+  </div>
+  <div class="sh-foot">
+    <button class="btn btn-outline" type="button" id="shAdd"><svg aria-hidden="true"><use href="#i-plus"/></svg><span>Keranjang</span></button>
+    <button class="btn btn-wa" type="button" id="shBuy"><svg aria-hidden="true"><use href="#i-wa"/></svg>Pesan Sekarang</button>
+  </div>
+</dialog>
+
+<!-- Keranjang -->
+<dialog class="sheet drawer" id="cart" aria-labelledby="cartTitle">
+  <div class="cart-head">
+    <h2 id="cartTitle" tabindex="-1" autofocus>Keranjang</h2>
+    <button class="link-btn" type="button" id="cartClear">Kosongkan</button>
+    <button class="x" type="button" data-close aria-label="Tutup"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sh-body">
+    <div class="empty-cart" id="cartEmpty">
+      <div class="big" aria-hidden="true">🧺</div>
+      <b>Keranjang masih kosong</b>
+      <p>Pilih layanan dulu, lalu checkout lewat WhatsApp.</p>
+      <button class="btn btn-outline" type="button" data-close data-goto="#layanan" style="display:inline-flex;flex:none">Lihat layanan</button>
+    </div>
+    <ul class="cart-list" id="cartList"></ul>
+    <div class="fields" id="cartForm">
+      <div class="fields-title">Data pemesan <small>(opsional)</small></div>
+      <div class="field"><label for="cNama">Nama</label><input id="cNama" autocomplete="name" placeholder="Nama kamu"></div>
+      <div class="field"><label for="cCatatan">Catatan untuk driver</label><textarea id="cCatatan" rows="2" placeholder="Contoh: rumah pagar hijau, dekat masjid"></textarea></div>
+    </div>
+    <div class="note" id="cartNote"><svg aria-hidden="true"><use href="#i-info"/></svg><span>Tarif diinformasikan lewat WhatsApp setelah pesanan dikirim. Tanpa biaya tersembunyi.</span></div>
+  </div>
+  <div class="sh-foot">
+    <button class="btn btn-wa" type="button" id="checkout"><svg aria-hidden="true"><use href="#i-wa"/></svg>Checkout via WhatsApp</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  // Ganti nomor di sini (format internasional tanpa + dan spasi).
+  const NUM = '6281246103897';
+
+  const CATS = [
+    { id: 'semua',   name: 'Semua',        icon: '🧭' },
+    { id: 'antar',   name: 'Antar Jemput', icon: '🛵' },
+    { id: 'kirim',   name: 'Kirim',        icon: '📦' },
+    { id: 'makanan', name: 'Makanan',      icon: '🍜' },
+    { id: 'belanja', name: 'Belanja UMKM', icon: '🛍️' },
+    { id: 'lain',    name: 'Lainnya',      icon: '✍️' }
+  ];
+
+  // Katalog layanan. Kolom `fields` menentukan isian yang muncul di detail
+  // dan ikut tersusun di pesan WhatsApp.
+  const PRODUCTS = [
+    { id: 'ride', cat: 'antar', name: 'Ride Motor', sub: 'Ride', emoji: '🛵', tone: '#FFE3D3',
+      desc: 'Antar jemput ke kampus, kantor, pasar, atau stasiun oleh driver warga lokal Jember.',
+      price: 'Tarif via WA',
+      fields: [
+        { k: 'jemput', l: 'Alamat jemput', ph: 'Contoh: Jl. Kalimantan, depan gerbang' },
+        { k: 'tujuan', l: 'Tujuan', ph: 'Contoh: Stasiun Jember' },
+        { k: 'waktu', l: 'Waktu jemput', ph: 'Sekarang / jam 07.00' }
+      ] },
+    { id: 'paket', cat: 'kirim', name: 'Kirim Paket', sub: 'Send', emoji: '📦', tone: '#DCE8FF',
+      desc: 'Paket atau barang diambil dari alamatmu, lalu diantar langsung ke alamat tujuan.',
+      price: 'Tarif via WA',
+      fields: [
+        { k: 'ambil', l: 'Alamat ambil', ph: 'Alamat pengambilan barang' },
+        { k: 'tujuan', l: 'Alamat tujuan', ph: 'Alamat penerima' },
+        { k: 'barang', l: 'Jenis barang', ph: 'Contoh: kardus kecil, ±2 kg' }
+      ] },
+    { id: 'dokumen', cat: 'kirim', name: 'Kirim Dokumen', sub: 'Send', emoji: '📄', tone: '#E9E3FF',
+      desc: 'Berkas, surat, atau map diambil lalu diantar langsung ke alamat tujuan.',
+      price: 'Tarif via WA',
+      fields: [
+        { k: 'ambil', l: 'Alamat ambil', ph: 'Alamat pengambilan dokumen' },
+        { k: 'tujuan', l: 'Alamat tujuan', ph: 'Alamat penerima' },
+        { k: 'penerima', l: 'Nama penerima', ph: 'Opsional' }
+      ] },
+    { id: 'makanan', cat: 'makanan', name: 'Titip Beli Makanan', sub: 'Food', emoji: '🍜', tone: '#FFF0C2',
+      desc: 'Pesan dari warung atau resto favoritmu. Harga makanan sama dengan harga warung.',
+      price: 'Harga warung + ongkir', badge: 'Tanpa markup',
+      fields: [
+        { k: 'toko', l: 'Nama warung / resto', ph: 'Contoh: Warung Bu Sri' },
+        { k: 'pesanan', l: 'Pesanan', ph: 'Contoh: 2 nasi pecel, 1 es teh', ta: true },
+        { k: 'antar', l: 'Alamat antar', ph: 'Alamat kamu' }
+      ] },
+    { id: 'umkm', cat: 'belanja', name: 'Titip Belanja UMKM', sub: 'Food', emoji: '🛍️', tone: '#D9F5E6',
+      desc: 'Titip beli produk UMKM favoritmu. Kami tidak mengambil komisi tambahan, harga sama dengan harga toko.',
+      price: 'Harga toko + ongkir', badge: '0% komisi',
+      fields: [
+        { k: 'toko', l: 'Nama toko / UMKM', ph: 'Nama toko atau lokasinya' },
+        { k: 'daftar', l: 'Daftar belanja', ph: 'Tulis barang dan jumlahnya', ta: true },
+        { k: 'antar', l: 'Alamat antar', ph: 'Alamat kamu' }
+      ] },
+    { id: 'lain', cat: 'lain', name: 'Pesanan Lainnya', sub: 'Custom', emoji: '✍️', tone: '#EEF0F3',
+      desc: 'Butuh bantuan lain? Tulis sendiri kebutuhanmu, admin akan membalas lewat WhatsApp.',
+      price: 'Tanya admin',
+      fields: [
+        { k: 'kebutuhan', l: 'Kebutuhan', ph: 'Ceritakan kebutuhanmu', ta: true },
+        { k: 'alamat', l: 'Alamat', ph: 'Alamat jemput / antar' }
+      ] }
+  ];
+
+  const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+  const catName = id => (CATS.find(c => c.id === id) || {}).name || '';
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const waUrl = text => 'https://wa.me/' + NUM + (text ? '?text=' + encodeURIComponent(text) : '');
+
+  // ---------- Penyimpanan keranjang (hanya di browser pengunjung) ----------
+  const KEY = 'bangjek_keranjang_v1';
+  const store = {
+    get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  let cart = store.get(KEY, []);
+  if (!Array.isArray(cart)) cart = [];
+  cart = cart.filter(it => it && byId[it.id] && it.data && typeof it.data === 'object');
+  const saveCart = () => store.set(KEY, cart);
+
+  // ---------- Tautan WhatsApp umum ----------
+  document.querySelectorAll('[data-wa]').forEach(a => {
+    a.href = waUrl('Halo Bangjek Jember, saya mau pesan.');
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+
+  // ---------- Kategori & katalog ----------
+  let filter = 'semua';
+  let query = '';
+  const catsEl = $('#cats');
+  catsEl.innerHTML = CATS.map(c =>
+    `<button class="cat" type="button" data-cat="${c.id}" aria-pressed="${c.id === filter}"><i aria-hidden="true">${c.icon}</i><span>${c.name}</span></button>`
+  ).join('');
+  catsEl.addEventListener('click', e => {
+    const b = e.target.closest('[data-cat]');
+    if (!b) return;
+    filter = b.dataset.cat;
+    renderCats();
+    renderGrid();
+  });
+  const renderCats = () => catsEl.querySelectorAll('[data-cat]').forEach(b => b.setAttribute('aria-pressed', b.dataset.cat === filter));
+
+  const grid = $('#grid');
+  function renderGrid() {
+    const q = query.trim().toLowerCase();
+    const list = PRODUCTS.filter(p =>
+      (filter === 'semua' || p.cat === filter) &&
+      (!q || [p.name, p.sub, p.desc, catName(p.cat)].join(' ').toLowerCase().includes(q))
+    );
+    grid.innerHTML = list.map(p => `
+      <article class="card" data-id="${p.id}">
+        <div class="card-img" style="background:${p.tone}"><span aria-hidden="true">${p.emoji}</span>${p.badge ? `<b class="pill">${esc(p.badge)}</b>` : ''}</div>
+        <div class="card-body">
+          <span class="card-cat">${esc(catName(p.cat))}</span>
+          <h3>${esc(p.name)}</h3>
+          <p>${esc(p.desc)}</p>
+          <span class="price">${esc(p.price)}</span>
+          <button class="card-add" type="button" aria-label="Pilih ${esc(p.name)}"><svg aria-hidden="true"><use href="#i-plus"/></svg>Pilih</button>
+        </div>
+      </article>`).join('');
+    $('#gridEmpty').hidden = list.length > 0;
+    $('#gridCount').textContent = list.length + ' layanan';
+    $('#gridTitle').textContent = q ? 'Hasil pencarian' : (filter === 'semua' ? 'Semua Layanan' : catName(filter));
+  }
+  grid.addEventListener('click', e => {
+    const c = e.target.closest('.card');
+    if (c) openSheet(c.dataset.id);
+  });
+
+  const q = $('#q');
+  q.addEventListener('input', () => {
+    query = q.value;
+    if (query && filter !== 'semua') { filter = 'semua'; renderCats(); }
+    renderGrid();
+  });
+  q.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); q.blur(); $('#layanan').scrollIntoView({ behavior: 'smooth' }); }
+  });
+
+  // ---------- Dialog ----------
+  const sheet = $('#sheet');
+  const cartDlg = $('#cart');
+  const root = document.documentElement;
+  function openDlg(d) {
+    if (d.open) return;
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+    root.classList.add('lock');
+  }
+  function closeDlg(d) {
+    if (!d.open) return;
+    if (typeof d.close === 'function') d.close(); else { d.removeAttribute('open'); d.dispatchEvent(new Event('close')); }
+  }
+  [sheet, cartDlg].forEach(d => {
+    d.addEventListener('close', () => { if (!sheet.open && !cartDlg.open) root.classList.remove('lock'); });
+    d.addEventListener('click', e => { if (e.target === d) closeDlg(d); });
+  });
+  document.addEventListener('click', e => {
+    const c = e.target.closest('[data-close]');
+    if (c) {
+      closeDlg(c.closest('dialog'));
+      if (c.dataset.goto) document.querySelector(c.dataset.goto).scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    const o = e.target.closest('[data-open]');
+    if (o) { openSheet(o.dataset.open); return; }
+    if (e.target.closest('[data-open-cart]')) openDlg(cartDlg);
+  });
+
+  // ---------- Detail layanan ----------
+  let sheetId = null;
+  let editIndex = -1;
+  let reopenCart = false;
+  const shFields = $('#shFields');
+  function openSheet(id, idx = -1) {
+    const p = byId[id];
+    if (!p) return;
+    sheetId = id;
+    editIndex = idx;
+    const data = idx >= 0 ? cart[idx].data : {};
+    $('#shImg').style.background = p.tone;
+    $('#shEmoji').textContent = p.emoji;
+    $('#shCat').textContent = catName(p.cat) + ' · ' + p.sub;
+    $('#shBadge').textContent = p.badge || '';
+    $('#shBadge').hidden = !p.badge;
+    $('#shTitle').textContent = p.name;
+    $('#shDesc').textContent = p.desc;
+    $('#shPrice').textContent = p.price;
+    shFields.innerHTML = '<div class="fields-title">Detail pesanan <small>(boleh dilengkapi di chat)</small></div>' +
+      p.fields.map(f => `<div class="field"><label for="f_${f.k}">${esc(f.l)}</label>${
+        f.ta ? `<textarea id="f_${f.k}" name="${f.k}" rows="3" placeholder="${esc(f.ph || '')}"></textarea>`
+             : `<input id="f_${f.k}" name="${f.k}" placeholder="${esc(f.ph || '')}" autocomplete="off">`
+      }</div>`).join('');
+    p.fields.forEach(f => { shFields.querySelector(`[name="${f.k}"]`).value = data[f.k] || ''; });
+    $('#shAdd span').textContent = idx >= 0 ? 'Simpan' : 'Keranjang';
+    reopenCart = cartDlg.open;
+    closeDlg(cartDlg);
+    openDlg(sheet);
+    sheet.querySelector('.sh-body').scrollTop = 0;
+  }
+  const readFields = () => {
+    const d = {};
+    byId[sheetId].fields.forEach(f => { d[f.k] = shFields.querySelector(`[name="${f.k}"]`).value.trim(); });
+    return d;
+  };
+  sheet.addEventListener('close', () => { if (reopenCart) { reopenCart = false; openDlg(cartDlg); } });
+
+  $('#shAdd').addEventListener('click', () => {
+    const data = readFields();
+    if (editIndex >= 0) {
+      cart[editIndex].data = data;
+      toast('Perubahan disimpan');
+    } else {
+      cart.push({ id: sheetId, data });
+      toast(byId[sheetId].name + ' masuk keranjang');
+    }
+    saveCart();
+    renderCart();
+    closeDlg(sheet);
+  });
+  $('#shBuy').addEventListener('click', () => {
+    sendWA([{ id: sheetId, data: readFields() }]);
+  });
+
+  // ---------- Keranjang ----------
+  const cartList = $('#cartList');
+  const nama = $('#cNama');
+  const catatan = $('#cCatatan');
+  nama.value = store.get('bangjek_nama', '');
+  nama.addEventListener('change', () => store.set('bangjek_nama', nama.value.trim()));
+
+  function renderCart() {
+    const n = cart.length;
+    document.querySelectorAll('[data-count]').forEach(b => { b.textContent = n; b.hidden = !n; });
+    $('#cartbar').hidden = !n;
+    $('#cartbarText').textContent = n + ' layanan di keranjang';
+    document.body.classList.toggle('has-cart', n > 0);
+    $('#cartEmpty').hidden = n > 0;
+    ['#cartList', '#cartForm', '#cartNote', '#cartClear'].forEach(s => { $(s).hidden = !n; });
+    $('#checkout').disabled = !n;
+    cartList.innerHTML = cart.map((it, i) => {
+      const p = byId[it.id];
+      const det = p.fields.filter(f => it.data[f.k]).map(f => `<span>${esc(f.l)}: ${esc(it.data[f.k])}</span>`).join('')
+        || '<span>Detail belum diisi, bisa dijelaskan di chat.</span>';
+      return `<li class="ci">
+        <span class="ci-img" style="background:${p.tone}" aria-hidden="true">${p.emoji}</span>
+        <div class="ci-body"><b>${esc(p.name)}</b><div class="ci-det">${det}</div>
+          <div class="ci-act"><button type="button" data-edit="${i}">Ubah</button><button type="button" data-del="${i}">Hapus</button></div>
+        </div></li>`;
+    }).join('');
+  }
+  cartList.addEventListener('click', e => {
+    const ed = e.target.closest('[data-edit]');
+    const del = e.target.closest('[data-del]');
+    if (ed) openSheet(cart[+ed.dataset.edit].id, +ed.dataset.edit);
+    if (del) { cart.splice(+del.dataset.del, 1); saveCart(); renderCart(); toast('Dihapus dari keranjang'); }
+  });
+  $('#cartClear').addEventListener('click', () => {
+    if (!confirm('Kosongkan semua isi keranjang?')) return;
+    cart = []; saveCart(); renderCart();
+  });
+  $('#checkout').addEventListener('click', () => {
+    if (!cart.length) return;
+    store.set('bangjek_nama', nama.value.trim());
+    sendWA(cart, nama.value.trim(), catatan.value.trim());
+  });
+
+  // ---------- Susun pesan WhatsApp ----------
+  function buildMessage(items, who, note) {
+    const lines = ['Halo Bangjek Jember, saya mau order:', ''];
+    items.forEach((it, i) => {
+      const p = byId[it.id];
+      lines.push(`${i + 1}. *${p.name}*`);
+      p.fields.forEach(f => {
+        const v = (it.data[f.k] || '').trim();
+        if (v) lines.push(`   ${f.l}: ${v.replace(/\n+/g, ', ')}`);
+      });
+      lines.push('');
+    });
+    if (who) lines.push('Nama: ' + who);
+    if (note) lines.push('Catatan: ' + note.replace(/\n+/g, ', '));
+    if (who || note) lines.push('');
+    lines.push('Mohon info tarifnya ya. Terima kasih 🙏');
+    return lines.join('\n');
+  }
+  function sendWA(items, who = '', note = '') {
+    const a = document.createElement('a');
+    a.href = waUrl(buildMessage(items, who, note));
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  // ---------- Toast ----------
+  let toastTimer;
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 1900);
+  }
+
+  // ---------- Banner geser (HP) ----------
+  const track = $('#bnTrack');
+  const dots = [...document.querySelectorAll('#bnDots button')];
+  const mobile = window.matchMedia('(max-width: 899px)');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const current = () => Math.round(track.scrollLeft / (track.clientWidth + 12));
+  const markDots = () => dots.forEach((d, i) => d.setAttribute('aria-current', i === current()));
+  const goTo = i => track.scrollTo({ left: i * (track.clientWidth + 12), behavior: reduce ? 'auto' : 'smooth' });
+  track.addEventListener('scroll', markDots, { passive: true });
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  markDots();
+  let userTouched = false;
+  ['pointerdown', 'touchstart'].forEach(ev => track.addEventListener(ev, () => { userTouched = true; }, { passive: true }));
+  if (!reduce) {
+    setInterval(() => {
+      if (userTouched || !mobile.matches || document.hidden || sheet.open || cartDlg.open) return;
+      goTo((current() + 1) % dots.length);
+    }, 5000);
+  }
+
+  // ---------- Navigasi bawah: tandai bagian yang sedang dilihat ----------
+  const navLinks = [...document.querySelectorAll('.bnav a')];
+  // Header selalu menempel di atas, jadi "Beranda" diwakili banner.
+  const sections = navLinks.map(a => {
+    const h = a.getAttribute('href');
+    return document.querySelector(h === '#top' ? '.banners' : h);
+  });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const i = sections.indexOf(en.target);
+        navLinks.forEach((a, j) => a.classList.toggle('on', i === j));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(s => s && io.observe(s));
+  }
+
+  $('#yr').textContent = new Date().getFullYear();
+  renderGrid();
+  renderCart();
+})();
+</script>
+</body>
+</html>
