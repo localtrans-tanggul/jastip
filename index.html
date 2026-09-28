@@ -262,6 +262,19 @@
   .btn[disabled]{opacity:.45;cursor:not-allowed}
 
   .cart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line);flex:none}
+  #quick .cart-head h2{flex:1}
+  .q-back svg{transform:rotate(180deg)}
+  .q-lead{font-size:14px;color:var(--muted);margin-bottom:12px}
+  .q-list{display:grid;gap:10px}
+  .q-opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px;cursor:pointer;transition:border-color .15s,background .15s}
+  .q-opt:hover,.q-opt:focus-visible{border-color:var(--brand);background:var(--brand-50)}
+  .q-img{width:60px;height:60px;border-radius:12px;overflow:hidden;flex:none}
+  .q-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .q-opt b{display:block;font-size:16.5px;line-height:1.25}
+  .q-opt small{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+  .q-opt > svg{width:20px;height:20px;margin-left:auto;color:var(--brand);flex:none}
+  .q-plain{display:block;text-align:center;margin-top:14px;padding:10px;font-size:14px;font-weight:700;color:var(--wa-600);text-decoration:none}
+  .q-plain:hover{text-decoration:underline}
   .cart-head h2{font-size:19px}
   .cart-head .x{position:static;box-shadow:none;background:var(--bg)}
   .link-btn{background:none;border:0;color:var(--brand-600);font-weight:700;font-size:13.5px;cursor:pointer;margin-left:auto;padding:6px}
@@ -521,6 +534,29 @@
   </div>
 </dialog>
 
+<!-- Tombol WhatsApp: pilih layanan, isi form, kirim -->
+<dialog class="sheet" id="quick" aria-labelledby="qTitle">
+  <div class="cart-head">
+    <button class="x q-back" type="button" id="qBack" aria-label="Kembali ke pilihan" hidden><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    <h2 id="qTitle" tabindex="-1" autofocus>Mau pesan apa?</h2>
+    <button class="x" type="button" data-close aria-label="Tutup"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sh-body">
+    <div id="qChoose">
+      <p class="q-lead">Pilih layanan, isi form singkat, lalu pesanan langsung terkirim ke WhatsApp admin.</p>
+      <div class="q-list" id="qList"></div>
+      <a class="q-plain" id="qPlain" href="https://wa.me/6281246103897" target="_blank" rel="noopener">Tanya-tanya dulu? Chat admin tanpa form</a>
+    </div>
+    <div id="qForm" hidden>
+      <div class="fields" id="qFields"></div>
+      <div class="note"><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Setelah pesan terkirim, <b>wajib share lokasi</b> di WhatsApp.</span></div>
+    </div>
+  </div>
+  <div class="sh-foot" id="qFoot" hidden>
+    <button class="btn btn-wa" type="button" id="qSend"><svg aria-hidden="true"><use href="#i-wa"/></svg>Kirim ke WhatsApp</button>
+  </div>
+</dialog>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -580,6 +616,13 @@
     }
   };
 
+  // Pilihan yang muncul saat tombol WhatsApp ditekan.
+  const QUICK = [
+    { tpl: 'food', name: 'Food', desc: 'Titip beli makanan & belanja', img: 'img/makanan.jpg' },
+    { tpl: 'ride', name: 'Ride', desc: 'Antar jemput pakai motor', img: 'img/ride.jpg' },
+    { tpl: 'paket', name: 'Paket Kilat', desc: 'Kirim barang & dokumen', img: 'img/paket.jpg' }
+  ];
+
   // Katalog layanan. Kolom `tpl` memilih template pesan di atas.
   const PRODUCTS = [
     { id: 'ride', cat: 'antar', name: 'Ride Motor', sub: 'Ride', emoji: '🛵', tone: '#FFE3D3', img: 'img/ride.jpg',
@@ -614,6 +657,10 @@
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const waUrl = text => 'https://wa.me/' + NUM + (text ? '?text=' + encodeURIComponent(text) : '');
+  const fieldHTML = (f, pre) => `<div class="field"><label for="${pre}${f.k}">${esc(f.l)}</label>${
+    f.ta ? `<textarea id="${pre}${f.k}" name="${f.k}" rows="3" placeholder="${esc(f.ph || '')}"></textarea>`
+         : `<input id="${pre}${f.k}" name="${f.k}" type="${f.type || 'text'}" placeholder="${esc(f.ph || '')}" autocomplete="${f.k === 'nama' ? 'name' : f.type === 'tel' ? 'tel' : 'off'}">`
+  }</div>`;
 
   // ---------- Penyimpanan keranjang (hanya di browser pengunjung) ----------
   const KEY = 'localtrans_keranjang_v1';
@@ -689,6 +736,7 @@
   // ---------- Dialog ----------
   const sheet = $('#sheet');
   const cartDlg = $('#cart');
+  const quick = $('#quick');
   const root = document.documentElement;
   function openDlg(d) {
     if (d.open) return;
@@ -699,8 +747,8 @@
     if (!d.open) return;
     if (typeof d.close === 'function') d.close(); else { d.removeAttribute('open'); d.dispatchEvent(new Event('close')); }
   }
-  [sheet, cartDlg].forEach(d => {
-    d.addEventListener('close', () => { if (!sheet.open && !cartDlg.open) root.classList.remove('lock'); });
+  [sheet, cartDlg, quick].forEach(d => {
+    d.addEventListener('close', () => { if (!sheet.open && !cartDlg.open && !quick.open) root.classList.remove('lock'); });
     d.addEventListener('click', e => { if (e.target === d) closeDlg(d); });
   });
   document.addEventListener('click', e => {
@@ -736,10 +784,7 @@
     $('#shDesc').textContent = p.desc;
     $('#shPrice').textContent = p.price;
     shFields.innerHTML = '<div class="fields-title">Detail pesanan <small>(boleh dilengkapi di chat)</small></div>' +
-      p.fields.map(f => `<div class="field"><label for="f_${f.k}">${esc(f.l)}</label>${
-        f.ta ? `<textarea id="f_${f.k}" name="${f.k}" rows="3" placeholder="${esc(f.ph || '')}"></textarea>`
-             : `<input id="f_${f.k}" name="${f.k}" type="${f.type || 'text'}" placeholder="${esc(f.ph || '')}" autocomplete="${f.k === 'nama' ? 'name' : f.type === 'tel' ? 'tel' : 'off'}">`
-      }</div>`).join('');
+      p.fields.map(f => fieldHTML(f, 'f_')).join('');
     p.fields.forEach(f => { shFields.querySelector(`[name="${f.k}"]`).value = data[f.k] || ''; });
     $('#shAdd span').textContent = idx >= 0 ? 'Simpan' : 'Keranjang';
     reopenCart = cartDlg.open;
@@ -816,11 +861,12 @@
 
   // ---------- Susun pesan WhatsApp (mengikuti TEMPLATES) ----------
   const oneLine = v => (v || '').trim().replace(/\s*\n+\s*/g, ', ');
-  function block(it) {
-    const t = TEMPLATES[byId[it.id].tpl];
+  const block = it => blockFor(byId[it.id].tpl, it.data);
+  function blockFor(key, data) {
+    const t = TEMPLATES[key];
     const lines = [t.head, ''];
     t.fields.forEach(f => {
-      const v = oneLine(it.data[f.k]);
+      const v = oneLine(data[f.k]);
       lines.push(f.l + ':' + (v ? ' ' + v : ''), '');
     });
     lines.push('', 'Wajib share lokasi');
@@ -833,14 +879,67 @@
     return msg;
   }
   function sendWA(items, note = '') {
+    openWA(buildMessage(items, note));
+  }
+  function openWA(text) {
     const a = document.createElement('a');
-    a.href = waUrl(buildMessage(items, note));
+    a.href = waUrl(text);
     a.target = '_blank';
     a.rel = 'noopener';
     document.body.appendChild(a);
     a.click();
     a.remove();
   }
+
+  // ---------- Tombol WhatsApp: pilih layanan -> isi form -> kirim ----------
+  const qFields = $('#qFields');
+  let qKey = null;
+  $('#qList').innerHTML = QUICK.map(q => `
+    <button class="q-opt" type="button" data-q="${q.tpl}">
+      <span class="q-img"><img src="${q.img}" alt=""></span>
+      <span><b>${esc(q.name)}</b><small>${esc(q.desc)}</small></span>
+      <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+    </button>`).join('');
+  $('#qPlain').href = waUrl('Halo Local Trans Tanggul, saya mau tanya.');
+
+  function quickChoose() {
+    qKey = null;
+    $('#qTitle').textContent = 'Mau pesan apa?';
+    $('#qChoose').hidden = false;
+    $('#qForm').hidden = true;
+    $('#qFoot').hidden = true;
+    $('#qBack').hidden = true;
+  }
+  function quickForm(key) {
+    const q = QUICK.find(x => x.tpl === key);
+    qKey = key;
+    $('#qTitle').textContent = 'Order ' + q.name;
+    qFields.innerHTML = TEMPLATES[key].fields.map(f => fieldHTML(f, 'q_')).join('');
+    qFields.querySelector('[name="nama"]').value = store.get('localtrans_nama', '');
+    $('#qChoose').hidden = true;
+    $('#qForm').hidden = false;
+    $('#qFoot').hidden = false;
+    $('#qBack').hidden = false;
+    quick.querySelector('.sh-body').scrollTop = 0;
+  }
+  document.querySelectorAll('[data-wa]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    quickChoose();
+    openDlg(quick);
+  }));
+  $('#qList').addEventListener('click', e => {
+    const b = e.target.closest('[data-q]');
+    if (b) quickForm(b.dataset.q);
+  });
+  $('#qBack').addEventListener('click', quickChoose);
+  $('#qPlain').addEventListener('click', () => closeDlg(quick));
+  $('#qSend').addEventListener('click', () => {
+    const data = {};
+    TEMPLATES[qKey].fields.forEach(f => { data[f.k] = qFields.querySelector(`[name="${f.k}"]`).value.trim(); });
+    rememberName(data);
+    openWA(blockFor(qKey, data));
+    closeDlg(quick);
+  });
 
   // ---------- Toast ----------
   let toastTimer;
