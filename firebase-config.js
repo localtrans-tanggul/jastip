@@ -12,3 +12,7 @@ export const firebaseConfig = {
 
 export const SDK = 'https://www.gstatic.com/firebasejs/10.12.2';
 export const isConfigured = () => !!firebaseConfig.projectId;
+
+// false = gambar dipakai lewat alamat (img/xxx.jpg atau URL), tanpa Firebase Storage.
+// Ubah ke true setelah Storage aktif untuk upload gambar dari admin.
+export const useStorage = false;
