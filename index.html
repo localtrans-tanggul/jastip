@@ -624,7 +624,7 @@
   ];
 
   // Katalog layanan. Kolom `tpl` memilih template pesan di atas.
-  const PRODUCTS = [
+  let PRODUCTS = [
     { id: 'ride', cat: 'antar', name: 'Ride Motor', sub: 'Ride', emoji: '🛵', tone: '#FFE3D3', img: 'img/ride.jpg',
       desc: 'Antar jemput ke kampus, kantor, pasar, atau stasiun oleh driver warga lokal Jember.',
       price: 'Tarif via WA',
@@ -651,8 +651,12 @@
       tpl: 'lain' }
   ];
 
-  PRODUCTS.forEach(p => { p.fields = TEMPLATES[p.tpl].fields; });
-  const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+  let byId = {};
+  const indexProducts = () => {
+    PRODUCTS.forEach(p => { p.fields = TEMPLATES[p.tpl].fields; });
+    byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+  };
+  indexProducts();
   const catName = id => (CATS.find(c => c.id === id) || {}).name || '';
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -670,7 +674,10 @@
   };
   let cart = store.get(KEY, []);
   if (!Array.isArray(cart)) cart = [];
-  cart = cart.filter(it => it && byId[it.id] && it.data && typeof it.data === 'object');
+  const rawCart = cart;
+  const validItem = it => it && byId[it.id] && it.data && typeof it.data === 'object';
+  cart = cart.filter(validItem);
+  const cartUntouched = cart.slice();
   const saveCart = () => store.set(KEY, cart);
 
   // ---------- Tautan WhatsApp umum ----------
@@ -992,6 +999,32 @@
   $('#yr').textContent = new Date().getFullYear();
   renderGrid();
   renderCart();
+
+  // ---------- Katalog dari Firestore ----------
+  // Daftar di atas jadi cadangan bila Firebase belum diisi, kosong, atau gagal dimuat.
+  (async () => {
+    try {
+      const { firebaseConfig, SDK, isConfigured } = await import('./firebase-config.js');
+      if (!isConfigured()) return;
+      const [{ initializeApp }, fs] = await Promise.all([
+        import(SDK + '/firebase-app.js'),
+        import(SDK + '/firebase-firestore.js')
+      ]);
+      const db = fs.getFirestore(initializeApp(firebaseConfig));
+      const snap = await fs.getDocs(fs.query(fs.collection(db, 'products'), fs.orderBy('order')));
+      const list = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(p => p.active !== false && TEMPLATES[p.tpl] && p.name);
+      if (!list.length) return;
+      PRODUCTS = list;
+      indexProducts();
+      // Pulihkan isi keranjang yang id-nya baru dikenali setelah katalog termuat.
+      cart = (cart.length === cartUntouched.length && cart.every((it, i) => it === cartUntouched[i]) ? rawCart : cart).filter(validItem);
+      saveCart();
+      renderGrid();
+      renderCart();
+    } catch (e) { console.warn('Katalog Firestore tidak dimuat, pakai cadangan.', e); }
+  })();
 })();
 </script>
 </body>
