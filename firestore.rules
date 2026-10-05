@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       // Ganti dengan email akun admin yang dibuat di Firebase Authentication.
-      return request.auth != null && request.auth.token.email == 'ADMIN_EMAIL@example.com';
+      return request.auth != null && request.auth.token.email == 'gojek.dpsha0514@gmail.com';
     }
     match /products/{id} {
       allow read: if true;
