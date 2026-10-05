@@ -81,8 +81,14 @@
         <div><label for="fTone">Warna latar</label><input id="fTone" type="color" value="#FFE3D3"></div>
         <div><label for="fOrder">Urutan</label><input id="fOrder" type="number" value="100"></div>
       </div>
-      <label for="fFile">Gambar (maks 2 MB; akan diperkecil otomatis)</label>
-      <input id="fFile" type="file" accept="image/*">
+      <div id="fileBox">
+        <label for="fFile">Gambar (maks 2 MB; akan diperkecil otomatis)</label>
+        <input id="fFile" type="file" accept="image/*">
+      </div>
+      <div id="imgBox">
+        <label for="fImg">Alamat gambar</label>
+        <input id="fImg" placeholder="img/ride.jpg atau https://...">
+      </div>
       <img id="preview" alt="" style="max-width:200px;margin-top:8px;border-radius:8px" hidden>
       <label><input id="fActive" type="checkbox" checked style="width:auto"> Tampil di situs</label>
       <div class="bar">
@@ -94,7 +100,7 @@
 </main>
 
 <script type="module">
-import { firebaseConfig, SDK, isConfigured } from './firebase-config.js';
+import { firebaseConfig, SDK, isConfigured, useStorage } from './firebase-config.js';
 const $ = s => document.querySelector(s);
 const msg = (t, err) => { $('#msg').textContent = t || ''; $('#msg').className = err ? 'err' : ''; };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -104,10 +110,13 @@ if (!isConfigured()) {
 } else {
   const [{ initializeApp }, A, F, S] = await Promise.all([
     import(SDK + '/firebase-app.js'), import(SDK + '/firebase-auth.js'),
-    import(SDK + '/firebase-firestore.js'), import(SDK + '/firebase-storage.js')
+    import(SDK + '/firebase-firestore.js'),
+    useStorage ? import(SDK + '/firebase-storage.js') : Promise.resolve(null)
   ]);
   const app = initializeApp(firebaseConfig);
-  const auth = A.getAuth(app), db = F.getFirestore(app), st = S.getStorage(app);
+  const auth = A.getAuth(app), db = F.getFirestore(app), st = useStorage ? S.getStorage(app) : null;
+  $('#fileBox').hidden = !useStorage;
+  $('#imgBox').hidden = useStorage;
   const col = F.collection(db, 'products');
 
   // Produk bawaan, sama dengan katalog awal di index.html.
@@ -156,7 +165,7 @@ if (!isConfigured()) {
     $('#fSub').value = p?.sub || ''; $('#fEmoji').value = p?.emoji || ''; $('#fDesc').value = p?.desc || '';
     $('#fPrice').value = p?.price || 'Tarif via WA'; $('#fBadge').value = p?.badge || '';
     $('#fTone').value = p?.tone || '#FFE3D3'; $('#fOrder').value = p?.order ?? (items.length + 1) * 10;
-    $('#fActive').checked = p?.active !== false; $('#fFile').value = '';
+    $('#fActive').checked = p?.active !== false; $('#fFile').value = ''; $('#fImg').value = p?.img || '';
     $('#preview').hidden = !p?.img; if (p?.img) $('#preview').src = p.img;
     $('#form').hidden = false; $('#form').scrollIntoView({ behavior:'smooth' });
   };
@@ -181,7 +190,8 @@ if (!isConfigured()) {
         active: $('#fActive').checked, img: old?.img || '', imgPath: old?.imgPath || ''
       };
       const b = $('#fBadge').value.trim(); if (b) data.badge = b; else data.badge = F.deleteField();
-      const file = $('#fFile').files[0];
+      const file = useStorage ? $('#fFile').files[0] : null;
+      if (!useStorage) data.img = $('#fImg').value.trim();
       if (file) {
         const blob = await shrink(file);
         const path = `products/${ref.id}-${Date.now()}.jpg`;
@@ -191,7 +201,7 @@ if (!isConfigured()) {
         if (old?.imgPath?.startsWith('products/')) S.deleteObject(S.ref(st, old.imgPath)).catch(() => {});
         data.imgPath = path;
       }
-      if (!data.img) throw new Error('Pilih gambar dulu.');
+      if (!data.img) throw new Error(useStorage ? 'Pilih gambar dulu.' : 'Isi alamat gambar dulu.');
       await F.setDoc(ref, data, { merge:true });
       $('#form').hidden = true; msg('Tersimpan.'); await load();
     } catch (err) { msg(err.message, true); }
@@ -205,24 +215,28 @@ if (!isConfigured()) {
       if (del && confirm('Hapus produk ini?')) {
         const p = items.find(x => x.id === del.dataset.del);
         await F.deleteDoc(F.doc(col, p.id));
-        if (p.imgPath?.startsWith('products/')) S.deleteObject(S.ref(st, p.imgPath)).catch(() => {});
+        if (useStorage && p.imgPath?.startsWith('products/')) S.deleteObject(S.ref(st, p.imgPath)).catch(() => {});
         msg('Dihapus.'); await load();
       }
     } catch (err) { msg(err.message, true); }
   };
 
-  // Impor: unggah foto bawaan di img/ ke Storage lalu buat dokumennya.
+  // Impor: buat dokumen produk bawaan (foto diunggah ke Storage bila useStorage true).
   $('#seed').onclick = async () => {
     $('#seed').disabled = true;
     try {
       for (const [i, p] of SEED.entries()) {
         msg(`Mengimpor ${p.name}…`);
-        const blob = await (await fetch(p.imgPath)).blob();
-        const path = `products/${p.id}-seed.jpg`;
-        const r = S.ref(st, path);
-        await S.uploadBytes(r, blob, { contentType: blob.type || 'image/jpeg' });
+        let img = p.imgPath, path = '';
+        if (useStorage) {
+          const blob = await (await fetch(p.imgPath)).blob();
+          path = `products/${p.id}-seed.jpg`;
+          const r = S.ref(st, path);
+          await S.uploadBytes(r, blob, { contentType: blob.type || 'image/jpeg' });
+          img = await S.getDownloadURL(r);
+        }
         const { imgPath, ...rest } = p; delete rest.id;
-        await F.setDoc(F.doc(col, p.id), { ...rest, img: await S.getDownloadURL(r), imgPath: path, order: (i + 1) * 10, active: true });
+        await F.setDoc(F.doc(col, p.id), { ...rest, img, imgPath: path, order: (i + 1) * 10, active: true });
       }
       msg('Impor selesai.'); await load();
     } catch (err) { msg(err.message, true); }
