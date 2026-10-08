@@ -4,7 +4,7 @@ service firebase.storage {
     match /products/{file} {
       allow read: if true;
       allow write: if request.auth != null
-                   && request.auth.token.email == 'ADMIN_EMAIL@example.com'
+                   && request.auth.token.email == 'gojek.dpsha0514@gmail.com'
                    && request.resource.size < 2 * 1024 * 1024
                    && request.resource.contentType.matches('image/.*');
     }
