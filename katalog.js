@@ -28,26 +28,26 @@ window.KATALOG = {
     // Makanan
     { id: 'kuliner',     grup: 'Makanan', nama: 'Kuliner',        emoji: '🍛', foto: ['img/makanan.jpg', 'img/kuliner-2.svg'],        tone: '#FFF0C2' },
     { id: 'nasi-goreng', grup: 'Makanan', nama: 'Nasi Goreng',    emoji: '🍳', foto: ['img/nasi-goreng.svg', 'img/nasi-goreng-2.svg'], tone: '#FFE3D3' },
-    { id: 'bakso',       grup: 'Makanan', nama: 'Bakso',          emoji: '🍲', foto: ['img/bakso.svg', 'img/bakso-2.svg'],             tone: '#FFE3D3' },
-    { id: 'mie-ayam',    grup: 'Makanan', nama: 'Mie Ayam',       emoji: '🍜', foto: ['img/mie-ayam.svg', 'img/mie-ayam-2.svg'],       tone: '#FFF0C2' },
-    { id: 'sate',        grup: 'Makanan', nama: 'Sate',           emoji: '🍢', foto: ['img/sate.svg', 'img/sate-2.svg'],               tone: '#FFE3D3' },
-    { id: 'soto',        grup: 'Makanan', nama: 'Soto',           emoji: '🥣', foto: ['img/soto.svg', 'img/soto-2.svg'],               tone: '#FFF0C2' },
-    { id: 'martabak',    grup: 'Makanan', nama: 'Martabak',       emoji: '🥞', foto: ['img/martabak.svg', 'img/martabak-2.svg'],       tone: '#E9E3FF' },
-    { id: 'cilok',       grup: 'Makanan', nama: 'Cilok',          emoji: '🍡', foto: ['img/cilok.svg', 'img/cilok-2.svg'],             tone: '#FFF0C2' },
-    { id: 'gorengan',    grup: 'Makanan', nama: 'Gorengan',       emoji: '🍤', foto: ['img/gorengan.svg', 'img/gorengan-2.svg'],       tone: '#FFE3D3' },
-    { id: 'rujak',       grup: 'Makanan', nama: 'Rujak',          emoji: '🥗', foto: ['img/rujak.svg', 'img/rujak-2.svg'],             tone: '#D9F5E6' },
-    { id: 'camilan',     grup: 'Makanan', nama: 'Makanan Ringan', emoji: '🍿', foto: ['img/camilan.svg', 'img/camilan-2.svg'],         tone: '#E9E3FF' },
+    { id: 'bakso',       grup: 'Makanan', nama: 'Bakso',          emoji: '🍲', foto: [],             tone: '#FFE3D3' },
+    { id: 'mie-ayam',    grup: 'Makanan', nama: 'Mie Ayam',       emoji: '🍜', foto: [],       tone: '#FFF0C2' },
+    { id: 'sate',        grup: 'Makanan', nama: 'Sate',           emoji: '🍢', foto: [],               tone: '#FFE3D3' },
+    { id: 'soto',        grup: 'Makanan', nama: 'Soto',           emoji: '🥣', foto: [],               tone: '#FFF0C2' },
+    { id: 'martabak',    grup: 'Makanan', nama: 'Martabak',       emoji: '🥞', foto: [],       tone: '#E9E3FF' },
+    { id: 'cilok',       grup: 'Makanan', nama: 'Cilok',          emoji: '🍡', foto: [],             tone: '#FFF0C2' },
+    { id: 'gorengan',    grup: 'Makanan', nama: 'Gorengan',       emoji: '🍤', foto: [],       tone: '#FFE3D3' },
+    { id: 'rujak',       grup: 'Makanan', nama: 'Rujak',          emoji: '🥗', foto: [],             tone: '#D9F5E6' },
+    { id: 'camilan',     grup: 'Makanan', nama: 'Makanan Ringan', emoji: '🍿', foto: [],         tone: '#E9E3FF' },
     // Minuman
-    { id: 'minuman',     grup: 'Minuman', nama: 'Susu & Minuman', emoji: '🥛', foto: ['img/minuman.svg', 'img/minuman-2.svg'],         tone: '#DCE8FF' },
-    { id: 'kopi',        grup: 'Minuman', nama: 'Kopi',           emoji: '☕', foto: ['img/kopi.svg', 'img/kopi-2.svg'],               tone: '#EEF0F3' },
-    { id: 'jus-buah',    grup: 'Minuman', nama: 'Jus Buah',       emoji: '🧃', foto: ['img/jus-buah.svg', 'img/jus-buah-2.svg'],       tone: '#D9F5E6' },
-    { id: 'es-campur',   grup: 'Minuman', nama: 'Es Campur & Es Degan', emoji: '🍧', foto: ['img/es-campur.svg', 'img/es-campur-2.svg'], tone: '#DCE8FF' },
+    { id: 'minuman',     grup: 'Minuman', nama: 'Susu & Minuman', emoji: '🥛', foto: [],         tone: '#DCE8FF' },
+    { id: 'kopi',        grup: 'Minuman', nama: 'Kopi',           emoji: '☕', foto: [],               tone: '#EEF0F3' },
+    { id: 'jus-buah',    grup: 'Minuman', nama: 'Jus Buah',       emoji: '🧃', foto: [],       tone: '#D9F5E6' },
+    { id: 'es-campur',   grup: 'Minuman', nama: 'Es Campur & Es Degan', emoji: '🍧', foto: [], tone: '#DCE8FF' },
     // Belanja & kebutuhan
     { id: 'oleh-oleh',   grup: 'Belanja & Kebutuhan', nama: 'Oleh-oleh UMKM', emoji: '🛍️', foto: ['img/umkm.jpg', 'img/tape.jpg'],             tone: '#D9F5E6', layanan: 'umkm' },
-    { id: 'sembako',     grup: 'Belanja & Kebutuhan', nama: 'Sembako',        emoji: '🍚', foto: ['img/sembako.svg', 'img/sembako-2.svg'],       tone: '#FFF0C2', layanan: 'lain' },
-    { id: 'sayur-buah',  grup: 'Belanja & Kebutuhan', nama: 'Sayur & Buah',   emoji: '🥬', foto: ['img/sayur-buah.svg', 'img/sayur-buah-2.svg'], tone: '#D9F5E6', layanan: 'lain' },
-    { id: 'galon-gas',   grup: 'Belanja & Kebutuhan', nama: 'Galon & Gas',    emoji: '💧', foto: ['img/galon-gas.svg', 'img/galon-gas-2.svg'],   tone: '#DCE8FF', layanan: 'lain' },
-    { id: 'obat',        grup: 'Belanja & Kebutuhan', nama: 'Obat & Apotek',  emoji: '💊', foto: ['img/obat.svg', 'img/obat-2.svg'],             tone: '#EEF0F3', layanan: 'lain' }
+    { id: 'sembako',     grup: 'Belanja & Kebutuhan', nama: 'Sembako',        emoji: '🍚', foto: [],       tone: '#FFF0C2', layanan: 'lain' },
+    { id: 'sayur-buah',  grup: 'Belanja & Kebutuhan', nama: 'Sayur & Buah',   emoji: '🥬', foto: [], tone: '#D9F5E6', layanan: 'lain' },
+    { id: 'galon-gas',   grup: 'Belanja & Kebutuhan', nama: 'Galon & Gas',    emoji: '💧', foto: [],   tone: '#DCE8FF', layanan: 'lain' },
+    { id: 'obat',        grup: 'Belanja & Kebutuhan', nama: 'Obat & Apotek',  emoji: '💊', foto: [],             tone: '#EEF0F3', layanan: 'lain' }
   ],
 
   // Toko cadangan. kategori: satu atau lebih id kategori di atas.

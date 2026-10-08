@@ -1103,10 +1103,15 @@
   }
 
   // ---------- Jajan & Belanja: kategori (foto contoh) -> toko -> produk teks ----------
+  // Gambar yang gagal dimuat (salah ketik nama file) diganti emoji supaya kartu tidak rusak.
+  window.__imgGagal = img => {
+    const w = img.parentNode;
+    w.innerHTML = `<span class="kf-emoji" aria-hidden="true">${w.dataset.emoji || '🛍️'}</span>`;
+  };
   const katMedia = (k, i = 0) => (k.foto || [])[i]
-    ? `<img src="${esc(k.foto[i])}" alt="" loading="lazy" width="800" height="600"><span class="kf-label">Ilustrasi</span>`
+    ? `<img src="${esc(k.foto[i])}" alt="" loading="lazy" width="800" height="600" onerror="__imgGagal(this)"><span class="kf-label">Ilustrasi</span>`
     : `<span class="kf-emoji" aria-hidden="true">${esc(k.emoji || '🛍️')}</span>`;
-  const katImg = (k, i = 0) => `<div class="kf-img" style="background:${esc(k.tone || '#EEF0F3')}">${katMedia(k, i)}</div>`;
+  const katImg = (k, i = 0) => `<div class="kf-img" style="background:${esc(k.tone || '#EEF0F3')}" data-emoji="${esc(k.emoji || '🛍️')}">${katMedia(k, i)}</div>`;
   const arrow = '<svg aria-hidden="true"><use href="#i-arrow"/></svg>';
 
   function renderJajan() {
