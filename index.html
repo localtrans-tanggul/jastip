@@ -457,7 +457,7 @@
 
   <!-- Jajan & Belanja: satu foto contoh per kategori, produk toko berupa teks (kategori di katalog.js, toko dari admin.html) -->
   <section class="wrap sec home" id="jajan">
-    <div class="sec-h"><div><h2>Jajan &amp; Belanja</h2><p>Pilih kategori, lalu pilih toko. Foto hanya ilustrasi.</p></div><span id="jajanCount"></span></div>
+    <div class="sec-h"><div><h2>Jajan &amp; Belanja</h2><p>Pilih kategori, lalu pilih toko. Gambar hanya ilustrasi.</p></div><span id="jajanCount"></span></div>
     <div class="grid" id="kfGrid"></div>
   </section>
 
@@ -499,7 +499,7 @@
       <details><summary>Berapa tarifnya?</summary><p>Tarif diinformasikan lewat WhatsApp sebelum driver berangkat. Harga jujur dan ramah di kantong, tanpa biaya tersembunyi.</p></details>
       <details><summary>Apakah harus instal aplikasi?</summary><p>Tidak. Semua pesanan cukup lewat chat WhatsApp. Halaman ini hanya membantu menyusun pesananmu supaya rapi.</p></details>
       <details><summary>Apakah harga makanan dan belanjaan dinaikkan?</summary><p>Tidak. Kami tidak mengambil komisi tambahan dari harga makanan atau produk UMKM yang kamu pesan. Harga belanjaan sama dengan harga toko.</p></details>
-      <details><summary>Kenapa foto di Jajan &amp; Belanja sama untuk semua toko?</summary><p>Foto di sana adalah foto contoh per kategori, bukan foto produk asli tiap toko. Isi dan tampilan pesanan mengikuti toko yang kamu pilih.</p></details>
+      <details><summary>Kenapa gambar di Jajan &amp; Belanja sama untuk semua toko?</summary><p>Gambar di sana adalah gambar contoh per kategori, bukan foto produk asli tiap toko. Isi dan tampilan pesanan mengikuti toko yang kamu pilih.</p></details>
       <details><summary>Siapa driver Local Trans?</summary><p>Mitra driver kami adalah warga lokal Jember yang ramah, sopan, dan menguasai setiap sudut kota.</p></details>
     </div>
   </section>
@@ -570,7 +570,7 @@
 
 <!-- Detail layanan -->
 <dialog class="sheet" id="sheet" aria-labelledby="shTitle">
-  <div class="sh-img" id="shImg"><img id="shPhoto" alt=""><span class="kf-emoji" id="shEmoji" aria-hidden="true" hidden></span><span class="kf-label" id="shLabel" hidden>Foto ilustrasi</span>
+  <div class="sh-img" id="shImg"><img id="shPhoto" alt=""><span class="kf-emoji" id="shEmoji" aria-hidden="true" hidden></span><span class="kf-label" id="shLabel" hidden>Ilustrasi</span>
     <button class="x" type="button" data-close aria-label="Tutup"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
   </div>
   <div class="sh-body">
@@ -913,7 +913,7 @@
     $('#shBadge').hidden = !!ctx || !p.badge;
     $('#shTitle').textContent = ctx ? 'Pesan dari ' + v.name : p.name;
     $('#shDesc').textContent = ctx
-      ? 'Pilihan saus, bumbu, atau varian bisa ditulis di kolom "Barang yang di beli".' + (v.img ? ' Foto hanya ilustrasi kategori.' : '')
+      ? 'Pilihan saus, bumbu, atau varian bisa ditulis di kolom "Barang yang di beli".' + (v.img ? ' Gambar hanya ilustrasi kategori.' : '')
       : p.desc;
     $('#shPrice').textContent = ctx ? (ctx.price || 'Harga toko + ongkir') : p.price;
     shFields.innerHTML = '<div class="fields-title">Detail pesanan <small>(boleh dilengkapi di chat)</small></div>' +
@@ -1092,7 +1092,7 @@
 
   // ---------- Jajan & Belanja: kategori (foto contoh) -> toko -> produk teks ----------
   const katMedia = (k, i = 0) => (k.foto || [])[i]
-    ? `<img src="${esc(k.foto[i])}" alt="" loading="lazy" width="800" height="600"><span class="kf-label">Foto ilustrasi</span>`
+    ? `<img src="${esc(k.foto[i])}" alt="" loading="lazy" width="800" height="600"><span class="kf-label">Ilustrasi</span>`
     : `<span class="kf-emoji" aria-hidden="true">${esc(k.emoji || '🛍️')}</span>`;
   const katImg = (k, i = 0) => `<div class="kf-img" style="background:${esc(k.tone || '#EEF0F3')}">${katMedia(k, i)}</div>`;
   const arrow = '<svg aria-hidden="true"><use href="#i-arrow"/></svg>';

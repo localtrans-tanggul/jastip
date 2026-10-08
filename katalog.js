@@ -16,7 +16,8 @@
 window.KATALOG = {
 
   // Kategori utama di beranda.
-  // foto : 1–2 foto contoh di folder img/ (4:3, sekitar 800×600, di bawah 100 KB).
+  // foto : 1–2 gambar contoh di folder img/: foto JPG (4:3, sekitar 800×600, di bawah
+  //        100 KB) atau ilustrasi SVG. Gambar pertama tampil di kartu beranda.
   //        Kosongkan (foto: []) kalau belum ada, nanti tampil emoji.
   // tone : warna latar di belakang foto / emoji.
   // layanan (opsional): layanan yang dibuka tombol "Titip beli" saat kategori belum
