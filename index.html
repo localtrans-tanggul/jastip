@@ -167,10 +167,22 @@
   .kf-label{position:absolute;left:8px;bottom:8px;background:rgba(255,255,255,.92);color:var(--ink-2);font-size:10.5px;font-weight:700;line-height:1.4;padding:3px 7px;border-radius:6px}
   .kf-body{padding:10px 12px 12px;display:flex;align-items:center;gap:8px}
   .kf-body div{flex:1;min-width:0}
-  .kf h3{font-size:15px;line-height:1.3;letter-spacing:-.01em}
+  .kf h4{font-size:15px;line-height:1.3;letter-spacing:-.01em}
   .kf small{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
   .kf-body > svg{width:18px;height:18px;color:var(--brand-600);flex:none}
-  @media (min-width:900px){.kf-body{padding:14px 16px 16px}.kf h3{font-size:16.5px}.kf small{font-size:13.5px}}
+  @media (min-width:900px){.kf-body{padding:14px 16px 16px}.kf h4{font-size:16.5px}.kf small{font-size:13.5px}}
+  /* Kategori dikelompokkan (Makanan, Minuman, …): di HP satu baris geser per kelompok, di layar lebar grid. */
+  .kf-group + .kf-group{margin-top:18px}
+  .kf-gh{display:flex;align-items:baseline;gap:6px;font-size:15.5px;line-height:1.3;margin-bottom:8px}
+  .kf-gh span{font-size:12.5px;font-weight:700;color:var(--muted)}
+  .kf-row{display:grid;grid-auto-flow:column;grid-auto-columns:150px;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 calc(var(--gut) * -1);padding:2px var(--gut) 8px;scroll-padding:0 var(--gut)}
+  .kf-row::-webkit-scrollbar{display:none}
+  .kf-row .kf{scroll-snap-align:start}
+  .kf-row .kf-body{padding:9px 10px 10px}
+  .kf-row .kf h4{font-size:14px}
+  .kf-row .kf small{font-size:12px}
+  @media (min-width:640px){.kf-row{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(4,1fr);gap:12px;overflow:visible;margin:0;padding:0}}
+  @media (min-width:1000px){.kf-row{grid-template-columns:repeat(5,1fr);gap:16px}.kf-row .kf-body{padding:12px 14px 14px}.kf-row .kf h4{font-size:15.5px}.kf-row .kf small{font-size:13px}}
 
   .in-view .home{display:none}
   .view{max-width:840px;padding-top:12px;min-height:60vh}
@@ -458,7 +470,7 @@
   <!-- Jajan & Belanja: satu foto contoh per kategori, produk toko berupa teks (kategori di katalog.js, toko dari admin.html) -->
   <section class="wrap sec home" id="jajan">
     <div class="sec-h"><div><h2>Jajan &amp; Belanja</h2><p>Pilih kategori, lalu pilih toko. Gambar hanya ilustrasi.</p></div><span id="jajanCount"></span></div>
-    <div class="grid" id="kfGrid"></div>
+    <div id="kfGrid"></div>
   </section>
 
   <!-- Halaman kategori & toko (#/k/… dan #/t/…) -->
@@ -1100,12 +1112,22 @@
   function renderJajan() {
     $('#jajan').hidden = !KAT.length;
     $('#jajanCount').textContent = KAT.length + ' kategori';
-    $('#kfGrid').innerHTML = KAT.map(k => {
+    const tile = k => {
       const n = tokoIn(k.id).length;
       return `
         <a class="kf" href="#/k/${encodeURIComponent(k.id)}">${katImg(k)}
-          <div class="kf-body"><div><h3>${esc(k.nama)}</h3><small>${n ? n + ' toko' : 'Belum ada toko'}</small></div>${arrow}</div>
+          <div class="kf-body"><div><h4>${esc(k.nama)}</h4><small>${n ? n + ' toko' : 'Belum ada toko'}</small></div>${arrow}</div>
         </a>`;
+    };
+    // Urutan kelompok mengikuti urutan pertama kali muncul di katalog.js.
+    const groups = [...new Set(KAT.map(k => k.grup || 'Lainnya'))];
+    $('#kfGrid').innerHTML = groups.map(g => {
+      const list = KAT.filter(k => (k.grup || 'Lainnya') === g);
+      return `
+      <div class="kf-group">
+        ${groups.length > 1 ? `<h3 class="kf-gh">${esc(g)} <span>${list.length}</span></h3>` : ''}
+        <div class="kf-row">${list.map(tile).join('')}</div>
+      </div>`;
     }).join('');
   }
   // Layanan titip beli untuk kategori yang belum punya toko.
