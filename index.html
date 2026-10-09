@@ -207,6 +207,9 @@
   .toko-tags button:hover{background:var(--brand-50);color:var(--brand-600)}
   .toko-head .note{margin-top:0}
   .toko-head .btn{justify-self:start;flex:none}
+  .toko-actions{display:flex;flex-wrap:wrap;gap:8px}
+  .toko-actions .btn,.empty-grid .toko-actions .btn{flex:none;display:inline-flex}
+  .empty-grid .toko-actions{justify-content:center}
   .pt-h{font-size:16px;line-height:1.3;margin:24px 0 8px}
   .pt-hk{font-size:13px;color:var(--muted);margin:-4px 0 8px}
   .pt-list{list-style:none;background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
@@ -773,6 +776,8 @@
   const menuOf = t => (Array.isArray(t.menu) ? t.menu : []).filter(b => b && Array.isArray(b.produk));
   const countOf = t => menuOf(t).reduce((n, b) => n + b.produk.length, 0);
   const rupiah = n => +n > 0 ? 'Rp' + (+n).toLocaleString('id-ID') : 'Tanya harga';
+  // Link katalog WhatsApp milik toko; hanya alamat resmi WhatsApp yang lolos (lihat katalog.js).
+  const katalogUrl = raw => (typeof window.linkKatalogWA === 'function' ? window.linkKatalogWA(raw) : '');
   const initials = s => s.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
 
   // Tampilan item: layanan biasa, atau pesanan toko yang memakai foto contoh kategorinya.
@@ -1178,6 +1183,9 @@
   function renderToko(t) {
     const k = katById[katOf(t)] || {};
     const menu = menuOf(t);
+    const wa = katalogUrl(t.katalog);
+    const katBtn = wa ? `<a class="btn btn-outline" href="${esc(wa)}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-store"/></svg>Lihat menu &amp; foto di WhatsApp</a>` : '';
+    const titipBtn = `<button class="btn btn-brand" type="button" data-titip>Pesan dari toko ini</button>`;
     view.innerHTML = `
       <a class="v-back" href="${k.id ? '#/k/' + encodeURIComponent(k.id) : '#jajan'}">${arrow}${esc(k.nama || 'Beranda')}</a>
       <section class="toko-head">
@@ -1185,8 +1193,11 @@
           <div><h2 tabindex="-1">${esc(t.nama)}</h2><p>${esc([k.nama, t.alamat].filter(Boolean).join(' · '))}</p></div></div>
         ${t.ket ? `<p class="toko-ket">${esc(t.ket)}</p>` : ''}
         ${menu.length > 1 ? `<div class="toko-tags">${menu.map((b, i) => `<button type="button" data-jump="${i}">${esc(b.bagian || 'Menu')}</button>`).join('')}</div>` : ''}
-        <div class="note"><svg aria-hidden="true"><use href="#i-info"/></svg><span>Produk di toko ini tanpa foto. Harga dari toko, ongkir diinformasikan lewat WhatsApp.</span></div>
-        <a class="btn btn-wa" href="${esc(waUrl('Halo Local Trans Tanggul, saya mau tanya menu ' + t.nama + '.'))}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Tanya dulu</a>
+        <div class="note"><svg aria-hidden="true"><use href="#i-info"/></svg><span>${wa ? 'Foto dan menu lengkap ada di katalog WhatsApp toko ini. ' : 'Produk di toko ini tanpa foto. '}Harga dari toko, ongkir diinformasikan lewat WhatsApp.</span></div>
+        <div class="toko-actions">
+          ${katBtn}
+          <a class="btn btn-wa" href="${esc(waUrl('Halo Local Trans Tanggul, saya mau tanya menu ' + t.nama + '.'))}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Tanya dulu</a>
+        </div>
       </section>
       ${menu.map((b, bi) => `
         <h3 class="pt-h" id="menu-${bi}">${esc(b.bagian || 'Menu')}</h3>
@@ -1197,10 +1208,17 @@
             <div class="pt-act">${actHTML(t, bi + '-' + pi)}</div>
           </li>`).join('')}
         </ul>`).join('')}
-      ${menu.length ? '' : '<div class="empty-grid" style="margin-top:16px"><b>Menu belum diisi</b><p>Tanya menunya lewat WhatsApp dulu, ya.</p></div>'}`;
+      ${menu.length ? '' : wa
+        ? `<div class="empty-grid" style="margin-top:16px"><b>Menu lengkap ada di katalog WhatsApp</b><p>Lihat menu dan fotonya lewat tombol di atas, lalu tulis pesananmu di sini.</p><div class="toko-actions">${titipBtn}</div></div>`
+        : `<div class="empty-grid" style="margin-top:16px"><b>Menu belum diisi</b><p>Tanya menunya lewat WhatsApp dulu, atau langsung tulis pesananmu.</p><div class="toko-actions">${titipBtn}</div></div>`}`;
   }
 
   view.addEventListener('click', e => {
+    if (e.target.closest('[data-titip]') && curToko) {
+      const t = curToko;
+      openSheet(TOKO_ITEM.id, -1, { toko: t.id, kat: katOf(t), nama: t.nama, price: 'Harga toko + ongkir', data: { tempat: t.nama } });
+      return;
+    }
     const j = e.target.closest('[data-jump]');
     if (j) { document.getElementById('menu-' + j.dataset.jump).scrollIntoView(); return; }
     const b = e.target.closest('[data-q]');

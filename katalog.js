@@ -53,6 +53,8 @@ window.KATALOG = {
   // Toko cadangan. kategori: satu atau lebih id kategori di atas.
   // menu: dikelompokkan per bagian; produk berisi nama, harga, dan bila perlu
   // varian (teks kecil di samping nama), ket (keterangan), habis: true.
+  // katalog (opsional): link katalog WhatsApp toko, misalnya 'https://wa.me/c/628...'.
+  //   Tampil sebagai tombol "Lihat menu & foto di WhatsApp"; menu boleh kosong.
   toko: [
     {
       id: 'fides-jagoan-steak',
@@ -109,4 +111,26 @@ window.KATALOG = {
       ]
     }
   ]
+};
+
+// =====================================================================
+//  FUNGSI BANTU (dipakai index.html dan admin.html, jangan diubah)
+//
+//  Link katalog WhatsApp yang ditempel penjual dipakai sebagai tautan di
+//  situs, jadi hanya alamat resmi WhatsApp yang diterima. Hasilnya adalah
+//  alamat https yang sudah dirapikan, atau '' bila tidak valid.
+//  Contoh valid: https://wa.me/p/123/456, wa.me/c/62812..., api.whatsapp.com/...
+// =====================================================================
+window.linkKatalogWA = function (raw) {
+  var s = String(raw == null ? '' : raw).trim();
+  if (!s) return '';
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(s)) s = 'https://' + s;
+  try {
+    var u = new URL(s);
+    if (u.protocol === 'http:') u.protocol = 'https:';
+    if (u.protocol !== 'https:' || u.username || u.password || u.port) return '';
+    var ok = ['wa.me', 'api.whatsapp.com', 'whatsapp.com', 'www.whatsapp.com', 'business.whatsapp.com'];
+    if (ok.indexOf(u.hostname.toLowerCase()) < 0) return '';
+    return u.href;
+  } catch (e) { return ''; }
 };

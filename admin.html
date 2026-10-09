@@ -83,7 +83,10 @@
           <div><label for="tAlamat">Daerah / alamat (opsional)</label><input id="tAlamat" placeholder="Tanggul"></div>
           <div><label for="tOrder">Urutan</label><input id="tOrder" type="number" value="10"></div>
         </div>
-        <label for="tMenu">Menu</label>
+        <label for="tKatalog">Link katalog WhatsApp (opsional)</label>
+        <input id="tKatalog" type="text" inputmode="url" autocomplete="off" placeholder="https://wa.me/p/…  atau  https://wa.me/c/…">
+        <p class="help" id="tKatalogInfo">Di WhatsApp Business, buka katalog atau produknya, lalu ketuk ikon tautan (rantai) di pojok kanan atas dan salin linknya. Di situs muncul tombol "Lihat menu &amp; foto di WhatsApp".</p>
+        <label for="tMenu">Menu (boleh dikosongkan kalau link katalog sudah diisi)</label>
         <div class="help">Satu produk per baris, tulis <code>Nama = harga</code>.
           <ul>
             <li>Judul bagian diawali <code>#</code>, boleh ditambah keterangan: <code># Aneka Steak | Pilihan saus: BBQ, Spicy</code></li>
@@ -382,7 +385,7 @@ if (!isConfigured()) {
     $('#tList').innerHTML = shops.map(t => `
       <div class="card item ${t.active === false ? 'off' : ''}">
         <span class="mono" aria-hidden="true">${esc(t.nama.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase())}</span>
-        <div style="flex:1;min-width:0"><b>${esc(t.nama)}</b><small>${esc((t.kategori || []).map(katName).join(', ') || 'Tanpa kategori')} · ${countOf(t)} produk${t.active === false ? ' · disembunyikan' : ''}</small>
+        <div style="flex:1;min-width:0"><b>${esc(t.nama)}</b><small>${esc((t.kategori || []).map(katName).join(', ') || 'Tanpa kategori')} · ${countOf(t)} produk${t.katalog ? ' · katalog WA' : ''}${t.active === false ? ' · disembunyikan' : ''}</small>
           <small style="display:block"><a href="index.html#/t/${encodeURIComponent(t.id)}" target="_blank" rel="noopener">Lihat halaman toko</a></small></div>
         <button class="alt" data-tedit="${esc(t.id)}" type="button">Ubah</button>
         <button class="danger" data-tdel="${esc(t.id)}" type="button">Hapus</button>
@@ -399,6 +402,15 @@ if (!isConfigured()) {
     return { menu, errs };
   };
   $('#tMenu').addEventListener('input', renderPrev);
+  const KAT_INFO = $('#tKatalogInfo').textContent;
+  const showKatalog = () => {
+    const raw = $('#tKatalog').value.trim(), ok = window.linkKatalogWA(raw);
+    $('#tKatalogInfo').className = 'help';
+    $('#tKatalogInfo').style.color = !raw ? '' : ok ? '#1B7F3B' : '#B3261E';
+    $('#tKatalogInfo').textContent = !raw ? KAT_INFO : ok ? 'Link valid: ' + ok.replace(/^https:\/\//, '') : 'Link tidak dikenali. Harus alamat WhatsApp, misalnya https://wa.me/p/… atau https://wa.me/c/…';
+    return { raw, ok };
+  };
+  $('#tKatalog').addEventListener('input', showKatalog);
 
   const openShop = t => {
     editingShop = t ? t.id : '';
@@ -408,7 +420,8 @@ if (!isConfigured()) {
     $('#tActive').checked = t?.active !== false;
     $('#tKat').querySelectorAll('input').forEach(c => { c.checked = (t?.kategori || []).includes(c.value); });
     $('#tMenu').value = t ? (t.menuText ?? menuToText(t.menu)) : '';
-    renderPrev();
+    $('#tKatalog').value = t?.katalog || '';
+    renderPrev(); showKatalog();
     $('#tForm').hidden = false; $('#tForm').scrollIntoView({ behavior:'smooth' });
   };
   $('#tAdd').onclick = () => openShop(null);
@@ -420,6 +433,9 @@ if (!isConfigured()) {
     const kategori = [...$('#tKat').querySelectorAll('input:checked')].map(c => c.value);
     if (errs.length) return msg('Perbaiki baris menu yang ditandai merah dulu.', true);
     if (!kategori.length) return msg('Pilih minimal satu kategori.', true);
+    const kat = showKatalog();
+    if (kat.raw && !kat.ok) return msg('Link katalog WhatsApp tidak valid. Tempel link dari WhatsApp (wa.me/…) atau kosongkan.', true);
+    if (!kat.ok && !menu.length) return msg('Isi menu, atau tempel link katalog WhatsApp.', true);
     $('#tSave').disabled = true; msg('Menyimpan…');
     try {
       const nama = $('#tNama').value.trim();
@@ -433,7 +449,7 @@ if (!isConfigured()) {
       await F.setDoc(F.doc(tcol, id), {
         nama, kategori, ket: $('#tKet').value.trim(), alamat: $('#tAlamat').value.trim(),
         order: Number($('#tOrder').value) || 0, active: $('#tActive').checked,
-        menu, menuText: $('#tMenu').value.trim()
+        menu, menuText: $('#tMenu').value.trim(), katalog: kat.ok
       });
       $('#tForm').hidden = true; msg('Toko tersimpan.'); await loadShops();
     } catch (err) { msg(err.message, true); }
@@ -458,7 +474,8 @@ if (!isConfigured()) {
         msg(`Mengimpor ${t.nama}…`);
         await F.setDoc(F.doc(tcol, t.id), {
           nama: t.nama, kategori: t.kategori || [], ket: t.ket || '', alamat: t.alamat || '',
-          order: (i + 1) * 10, active: true, menu: t.menu || [], menuText: menuToText(t.menu)
+          order: (i + 1) * 10, active: true, menu: t.menu || [], menuText: menuToText(t.menu),
+          katalog: window.linkKatalogWA(t.katalog)
         });
       }
       msg('Impor toko selesai.'); await loadShops();
