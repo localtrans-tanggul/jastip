@@ -9,5 +9,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+    // Toko & menu teks yang diisi driver lewat admin.html (tanpa foto).
+    match /toko/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

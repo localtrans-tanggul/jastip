@@ -29,6 +29,19 @@
   #msg { min-height:20px; font-size:13px; color:var(--mute); }
   #msg.err { color:#B3261E; }
   [hidden] { display:none !important; }
+  .tab[aria-pressed="false"] { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .checks { display:flex; flex-wrap:wrap; gap:6px; }
+  .checks label { display:inline-flex; gap:6px; align-items:center; margin:0; padding:6px 10px; border:1px solid var(--line); border-radius:999px; background:#fff; font-weight:600; }
+  .checks input { width:auto; margin:0; }
+  .help { font-size:13px; color:var(--mute); margin:2px 0 6px; }
+  .help code, .prev code { background:#F1ECE7; padding:1px 5px; border-radius:5px; font-size:12.5px; }
+  .help ul { margin:4px 0 0; padding-left:18px; }
+  #tMenu { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:14px; }
+  .prev { font-size:13px; margin-top:8px; border:1px dashed var(--line); border-radius:10px; padding:10px; max-height:280px; overflow:auto; }
+  .prev b { display:block; margin-top:6px; }
+  .prev b:first-child { margin-top:0; }
+  .prev .err { color:#B3261E; }
+  .mono { width:48px; height:48px; border-radius:10px; background:#FFF2EB; color:#C23A08; font-weight:800; display:grid; place-items:center; flex:none; }
 </style>
 </head>
 <body>
@@ -44,11 +57,65 @@
 
   <section id="app" hidden>
     <div class="bar">
-      <button id="add" type="button">+ Produk baru</button>
-      <button id="seed" class="alt" type="button" hidden>Impor produk bawaan</button>
+      <button id="tabToko" class="tab" type="button" aria-pressed="true">Toko &amp; Menu</button>
+      <button id="tabLayanan" class="tab" type="button" aria-pressed="false">Layanan</button>
       <span class="sp"></span>
       <a href="index.html">Lihat situs</a>
       <button id="logout" class="alt" type="button">Keluar</button>
+    </div>
+
+    <!-- Toko & menu: teks saja, foto memakai foto contoh kategori (katalog.js) -->
+    <div id="paneToko">
+      <div class="bar">
+        <button id="tAdd" type="button">+ Toko baru</button>
+        <button id="tSeed" class="alt" type="button" hidden>Impor toko contoh</button>
+      </div>
+      <div id="tList" style="margin-top:12px"></div>
+
+      <form class="card" id="tForm" hidden>
+        <b id="tFormTitle">Toko</b>
+        <label for="tNama">Nama toko</label><input id="tNama" required placeholder="Warung Bu Sri">
+        <label>Kategori</label>
+        <div class="checks" id="tKat"></div>
+        <p class="help">Toko tampil di kategori yang dicentang. Gambar kategori dipakai sebagai ilustrasi, jadi produk tidak perlu foto.</p>
+        <label for="tKet">Keterangan singkat</label><input id="tKet" placeholder="Nasi pecel, lalapan, dan es teh.">
+        <div class="row">
+          <div><label for="tAlamat">Daerah / alamat (opsional)</label><input id="tAlamat" placeholder="Tanggul"></div>
+          <div><label for="tOrder">Urutan</label><input id="tOrder" type="number" value="10"></div>
+        </div>
+        <label for="tKatalog">Link katalog WhatsApp (opsional)</label>
+        <input id="tKatalog" type="text" inputmode="url" autocomplete="off" placeholder="https://wa.me/p/…  atau  https://wa.me/c/…">
+        <p class="help" id="tKatalogInfo">Di WhatsApp Business, buka katalog atau produknya, lalu ketuk ikon tautan (rantai) di pojok kanan atas dan salin linknya. Di situs muncul tombol "Lihat menu &amp; foto di WhatsApp".</p>
+        <label for="tMenu">Menu (boleh dikosongkan kalau link katalog sudah diisi)</label>
+        <div class="help">Satu produk per baris, tulis <code>Nama = harga</code>.
+          <ul>
+            <li>Judul bagian diawali <code>#</code>, boleh ditambah keterangan: <code># Aneka Steak | Pilihan saus: BBQ, Spicy</code></li>
+            <li>Harga boleh <code>18000</code>, <code>18.000</code>, atau <code>18k</code>. Tanpa harga tampil "Tanya harga".</li>
+            <li>Varian di dalam kurung: <code>Es Tejo (susu) = 10000</code>. Beda harga, tulis baris sendiri.</li>
+            <li>Keterangan setelah <code>|</code>: <code>Party Platter = 150000 | Untuk 4–6 orang</code></li>
+            <li>Sedang kosong? Tambahkan <code>[habis]</code> di akhir baris.</li>
+          </ul>
+        </div>
+        <textarea id="tMenu" rows="14" spellcheck="false" placeholder="# Makanan
+Nasi Pecel = 10000
+Lalapan Ayam (pakai nasi) = 16000 | Sambal terpisah
+
+# Minuman
+Es Teh = 3000
+Es Jeruk = 5000 [habis]"></textarea>
+        <div class="prev" id="tPrev" aria-live="polite"></div>
+        <label><input id="tActive" type="checkbox" checked style="width:auto"> Tampil di situs</label>
+        <div class="bar">
+          <button id="tSave" type="submit">Simpan</button>
+          <button id="tCancel" class="alt" type="button">Batal</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="paneLayanan" hidden>
+    <div class="bar">
+      <button id="add" type="button">+ Produk baru</button>
+      <button id="seed" class="alt" type="button" hidden>Impor produk bawaan</button>
     </div>
     <div id="list" style="margin-top:12px"></div>
 
@@ -96,14 +163,72 @@
         <button id="cancel" class="alt" type="button">Batal</button>
       </div>
     </form>
+    </div>
   </section>
 </main>
 
+<script src="katalog.js"></script>
 <script type="module">
 import { firebaseConfig, SDK, isConfigured, useStorage } from './firebase-config.js';
 const $ = s => document.querySelector(s);
 const msg = (t, err) => { $('#msg').textContent = t || ''; $('#msg').className = err ? 'err' : ''; };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const KAT = (window.KATALOG && window.KATALOG.kategori) || [];
+const TOKO_CONTOH = (window.KATALOG && window.KATALOG.toko) || [];
+const rupiah = n => +n > 0 ? 'Rp' + (+n).toLocaleString('id-ID') : 'Tanya harga';
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'toko';
+
+// Harga: 18000, 18.000, Rp18.000, 18k, 18rb, 2,5rb. Kosong = 0 (Tanya harga); null = tidak terbaca.
+const parseHarga = str => {
+  const t = str.trim().toLowerCase().replace(/^rp\.?\s*/, '');
+  if (!t) return 0;
+  const m = /^(\d+(?:[.,]\d+)*)\s*(k|rb|ribu)?$/.exec(t);
+  if (!m) return null;
+  let n = m[1];
+  n = m[2] ? Number(n.replace(',', '.')) * 1000 : Number(n.replace(/[.,]/g, ''));
+  return Number.isFinite(n) ? Math.round(n) : null;
+};
+
+// Teks menu dari driver -> [{ bagian, ket, produk: [{ nama, varian, ket, harga, habis }] }]
+const parseMenu = text => {
+  const menu = [], errs = [];
+  let cur = null;
+  text.split('\n').forEach((raw, i) => {
+    let line = raw.trim();
+    if (!line) return;
+    if (line.startsWith('#')) {
+      const [b, ...k] = line.replace(/^#+/, '').split('|');
+      cur = { bagian: b.trim() || 'Menu', produk: [] };
+      if (k.join('|').trim()) cur.ket = k.join('|').trim();
+      menu.push(cur);
+      return;
+    }
+    const habis = /\[habis\]\s*$/i.test(line);
+    line = line.replace(/\[habis\]\s*$/i, '').trim();
+    const [main, ...k] = line.split('|');
+    const eq = main.lastIndexOf('=');
+    let nama = (eq >= 0 ? main.slice(0, eq) : main).trim();
+    const harga = eq >= 0 ? parseHarga(main.slice(eq + 1)) : 0;
+    if (harga === null) errs.push(`Baris ${i + 1}: harga "${main.slice(eq + 1).trim()}" tidak terbaca. Tulis satu harga, misalnya 18000.`);
+    let varian = '';
+    const v = /^(.*?)\s*\(([^()]+)\)$/.exec(nama);
+    if (v && v[1]) { nama = v[1].trim(); varian = v[2].trim(); }
+    if (!nama) { errs.push(`Baris ${i + 1}: nama produk kosong.`); return; }
+    if (!cur) { cur = { bagian: 'Menu', produk: [] }; menu.push(cur); }
+    const p = { nama, harga: harga || 0 };
+    if (varian) p.varian = varian;
+    if (k.join('|').trim()) p.ket = k.join('|').trim();
+    if (habis) p.habis = true;
+    cur.produk.push(p);
+  });
+  return { menu: menu.filter(b => b.produk.length), errs };
+};
+
+const menuToText = menu => (menu || []).map(b => [
+  `# ${b.bagian || 'Menu'}${b.ket ? ' | ' + b.ket : ''}`,
+  ...(b.produk || []).map(p => `${p.nama}${p.varian ? ` (${p.varian})` : ''}${+p.harga > 0 ? ' = ' + p.harga : ''}${p.ket ? ' | ' + p.ket : ''}${p.habis ? ' [habis]' : ''}`)
+].join('\n')).join('\n\n');
 
 if (!isConfigured()) {
   msg('Isi firebase-config.js dengan config Firebase dulu.', true);
@@ -243,12 +368,139 @@ if (!isConfigured()) {
     $('#seed').disabled = false;
   };
 
+  // ---------- Toko & menu (teks saja) ----------
+  const tcol = F.collection(db, 'toko');
+  let shops = [], editingShop = null; // id dokumen, '' untuk toko baru
+  const katName = id => (KAT.find(k => k.id === id) || {}).nama || id;
+  const countOf = t => (t.menu || []).reduce((n, b) => n + (b.produk || []).length, 0);
+
+  $('#tKat').innerHTML = KAT.map(k =>
+    `<label><input type="checkbox" value="${esc(k.id)}"> ${esc(k.emoji || '')} ${esc(k.nama)}</label>`).join('')
+    || '<span class="help">Belum ada kategori di katalog.js.</span>';
+
+  const loadShops = async () => {
+    const snap = await F.getDocs(F.query(tcol, F.orderBy('order')));
+    shops = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    $('#tSeed').hidden = shops.length > 0 || !TOKO_CONTOH.length;
+    $('#tList').innerHTML = shops.map(t => `
+      <div class="card item ${t.active === false ? 'off' : ''}">
+        <span class="mono" aria-hidden="true">${esc(t.nama.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase())}</span>
+        <div style="flex:1;min-width:0"><b>${esc(t.nama)}</b><small>${esc((t.kategori || []).map(katName).join(', ') || 'Tanpa kategori')} · ${countOf(t)} produk${t.katalog ? ' · katalog WA' : ''}${t.active === false ? ' · disembunyikan' : ''}</small>
+          <small style="display:block"><a href="index.html#/t/${encodeURIComponent(t.id)}" target="_blank" rel="noopener">Lihat halaman toko</a></small></div>
+        <button class="alt" data-tedit="${esc(t.id)}" type="button">Ubah</button>
+        <button class="danger" data-tdel="${esc(t.id)}" type="button">Hapus</button>
+      </div>`).join('') || '<div class="card">Belum ada toko. Situs memakai toko contoh dari katalog.js sampai ada toko di sini.</div>';
+  };
+
+  const renderPrev = () => {
+    const { menu, errs } = parseMenu($('#tMenu').value);
+    const n = menu.reduce((a, b) => a + b.produk.length, 0);
+    $('#tPrev').innerHTML = (errs.length ? errs.map(e => `<div class="err">${esc(e)}</div>`).join('') : '')
+      + (n ? `<div>${n} produk dalam ${menu.length} bagian:</div>` + menu.map(b => `<b>${esc(b.bagian)}</b>`
+        + b.produk.map(p => `<div>${esc(p.nama)}${p.varian ? ` <small>(${esc(p.varian)})</small>` : ''} — ${p.habis ? 'habis' : rupiah(p.harga)}${p.ket ? ` <small>· ${esc(p.ket)}</small>` : ''}</div>`).join('')).join('')
+        : '<div>Belum ada produk. Ketik menu di atas.</div>');
+    return { menu, errs };
+  };
+  $('#tMenu').addEventListener('input', renderPrev);
+  const KAT_INFO = $('#tKatalogInfo').textContent;
+  const showKatalog = () => {
+    const raw = $('#tKatalog').value.trim(), ok = window.linkKatalogWA(raw);
+    $('#tKatalogInfo').className = 'help';
+    $('#tKatalogInfo').style.color = !raw ? '' : ok ? '#1B7F3B' : '#B3261E';
+    $('#tKatalogInfo').textContent = !raw ? KAT_INFO : ok ? 'Link valid: ' + ok.replace(/^https:\/\//, '') : 'Link tidak dikenali. Harus alamat WhatsApp, misalnya https://wa.me/p/… atau https://wa.me/c/…';
+    return { raw, ok };
+  };
+  $('#tKatalog').addEventListener('input', showKatalog);
+
+  const openShop = t => {
+    editingShop = t ? t.id : '';
+    $('#tFormTitle').textContent = t ? 'Ubah toko' : 'Toko baru';
+    $('#tNama').value = t?.nama || ''; $('#tKet').value = t?.ket || ''; $('#tAlamat').value = t?.alamat || '';
+    $('#tOrder').value = t?.order ?? (shops.length + 1) * 10;
+    $('#tActive').checked = t?.active !== false;
+    $('#tKat').querySelectorAll('input').forEach(c => { c.checked = (t?.kategori || []).includes(c.value); });
+    $('#tMenu').value = t ? (t.menuText ?? menuToText(t.menu)) : '';
+    $('#tKatalog').value = t?.katalog || '';
+    renderPrev(); showKatalog();
+    $('#tForm').hidden = false; $('#tForm').scrollIntoView({ behavior:'smooth' });
+  };
+  $('#tAdd').onclick = () => openShop(null);
+  $('#tCancel').onclick = () => { $('#tForm').hidden = true; };
+
+  $('#tForm').onsubmit = async e => {
+    e.preventDefault();
+    const { menu, errs } = renderPrev();
+    const kategori = [...$('#tKat').querySelectorAll('input:checked')].map(c => c.value);
+    if (errs.length) return msg('Perbaiki baris menu yang ditandai merah dulu.', true);
+    if (!kategori.length) return msg('Pilih minimal satu kategori.', true);
+    const kat = showKatalog();
+    if (kat.raw && !kat.ok) return msg('Link katalog WhatsApp tidak valid. Tempel link dari WhatsApp (wa.me/…) atau kosongkan.', true);
+    if (!kat.ok && !menu.length) return msg('Isi menu, atau tempel link katalog WhatsApp.', true);
+    $('#tSave').disabled = true; msg('Menyimpan…');
+    try {
+      const nama = $('#tNama').value.trim();
+      let id = editingShop;
+      if (!id) {
+        // id dari nama toko supaya link mudah dibagikan: #/t/warung-bu-sri
+        const base = slug(nama);
+        id = base;
+        for (let i = 2; shops.some(t => t.id === id); i++) id = `${base}-${i}`;
+      }
+      await F.setDoc(F.doc(tcol, id), {
+        nama, kategori, ket: $('#tKet').value.trim(), alamat: $('#tAlamat').value.trim(),
+        order: Number($('#tOrder').value) || 0, active: $('#tActive').checked,
+        menu, menuText: $('#tMenu').value.trim(), katalog: kat.ok
+      });
+      $('#tForm').hidden = true; msg('Toko tersimpan.'); await loadShops();
+    } catch (err) { msg(err.message, true); }
+    $('#tSave').disabled = false;
+  };
+
+  $('#tList').onclick = async e => {
+    const ed = e.target.closest('[data-tedit]'), del = e.target.closest('[data-tdel]');
+    try {
+      if (ed) openShop(shops.find(t => t.id === ed.dataset.tedit));
+      if (del && confirm('Hapus toko ini beserta menunya?')) {
+        await F.deleteDoc(F.doc(tcol, del.dataset.tdel));
+        msg('Toko dihapus.'); await loadShops();
+      }
+    } catch (err) { msg(err.message, true); }
+  };
+
+  $('#tSeed').onclick = async () => {
+    $('#tSeed').disabled = true;
+    try {
+      for (const [i, t] of TOKO_CONTOH.entries()) {
+        msg(`Mengimpor ${t.nama}…`);
+        await F.setDoc(F.doc(tcol, t.id), {
+          nama: t.nama, kategori: t.kategori || [], ket: t.ket || '', alamat: t.alamat || '',
+          order: (i + 1) * 10, active: true, menu: t.menu || [], menuText: menuToText(t.menu),
+          katalog: window.linkKatalogWA(t.katalog)
+        });
+      }
+      msg('Impor toko selesai.'); await loadShops();
+    } catch (err) { msg(err.message, true); }
+    $('#tSeed').disabled = false;
+  };
+
+  const tab = name => {
+    $('#paneToko').hidden = name !== 'toko';
+    $('#paneLayanan').hidden = name !== 'layanan';
+    $('#tabToko').setAttribute('aria-pressed', name === 'toko');
+    $('#tabLayanan').setAttribute('aria-pressed', name === 'layanan');
+  };
+  $('#tabToko').onclick = () => tab('toko');
+  $('#tabLayanan').onclick = () => tab('layanan');
+
   $('#login').onclick = () => A.signInWithEmailAndPassword(auth, $('#em').value, $('#pw').value)
     .catch(() => msg('Email atau kata sandi salah.', true));
   $('#logout').onclick = () => A.signOut(auth);
   A.onAuthStateChanged(auth, async u => {
     $('#loginBox').hidden = !!u; $('#app').hidden = !u; msg('');
-    if (u) { try { await load(); } catch (err) { msg(err.message, true); } }
+    if (u) {
+      try { await loadShops(); } catch (err) { msg('Toko belum bisa dimuat. Pastikan aturan koleksi "toko" di firestore.rules sudah dipasang di Firebase Console. (' + err.message + ')', true); }
+      try { await load(); } catch (err) { msg(err.message, true); }
+    }
   });
 }
 </script>

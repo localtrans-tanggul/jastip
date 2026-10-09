@@ -155,6 +155,82 @@
   .empty-grid b{display:block;font-size:17px;margin-bottom:4px}
   .empty-grid p{color:var(--muted);font-size:14px;margin-bottom:14px}
 
+  /* ---------- Jajan & Belanja: foto contoh kategori → toko → produk teks ---------- */
+  .sec-h > div p{margin-top:2px}
+  .sec-h > span{white-space:nowrap}
+  .kf{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s}
+  .kf:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+  .kf-img{aspect-ratio:4 / 3;position:relative;overflow:hidden;background:#EEF0F3;display:grid;place-items:center}
+  .kf-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+  .kf:hover .kf-img img{transform:scale(1.06)}
+  .kf-emoji{font-size:44px;line-height:1}
+  .kf-label{position:absolute;left:8px;bottom:8px;background:rgba(255,255,255,.92);color:var(--ink-2);font-size:10.5px;font-weight:700;line-height:1.4;padding:3px 7px;border-radius:6px}
+  .kf-body{padding:10px 12px 12px;display:flex;align-items:center;gap:8px}
+  .kf-body div{flex:1;min-width:0}
+  .kf h4{font-size:15px;line-height:1.3;letter-spacing:-.01em}
+  .kf small{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
+  .kf-body > svg{width:18px;height:18px;color:var(--brand-600);flex:none}
+  @media (min-width:900px){.kf-body{padding:14px 16px 16px}.kf h4{font-size:16.5px}.kf small{font-size:13.5px}}
+  /* Kategori dikelompokkan (Makanan, Minuman, …): di HP satu baris geser per kelompok, di layar lebar grid. */
+  .kf-group + .kf-group{margin-top:18px}
+  .kf-gh{display:flex;align-items:baseline;gap:6px;font-size:15.5px;line-height:1.3;margin-bottom:8px}
+  .kf-gh span{font-size:12.5px;font-weight:700;color:var(--muted)}
+  .kf-row{display:grid;grid-auto-flow:column;grid-auto-columns:150px;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 calc(var(--gut) * -1);padding:2px var(--gut) 8px;scroll-padding:0 var(--gut)}
+  .kf-row::-webkit-scrollbar{display:none}
+  .kf-row .kf{scroll-snap-align:start}
+  .kf-row .kf-body{padding:9px 10px 10px}
+  .kf-row .kf h4{font-size:14px}
+  .kf-row .kf small{font-size:12px}
+  @media (min-width:640px){.kf-row{grid-auto-flow:row;grid-auto-columns:auto;grid-template-columns:repeat(4,1fr);gap:12px;overflow:visible;margin:0;padding:0}}
+  @media (min-width:1000px){.kf-row{grid-template-columns:repeat(5,1fr);gap:16px}.kf-row .kf-body{padding:12px 14px 14px}.kf-row .kf h4{font-size:15.5px}.kf-row .kf small{font-size:13px}}
+
+  .in-view .home{display:none}
+  .view{max-width:840px;padding-top:12px;min-height:60vh}
+  /* Di HP tombol WA mengambang menutupi tombol Pilih; di halaman toko sudah ada tombol "Tanya dulu". */
+  @media (max-width:899px){.in-toko .wa-float{display:none}}
+  .v-back{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:var(--brand-600);text-decoration:none;padding:6px 0;margin-bottom:8px}
+  .v-back svg{width:18px;height:18px;transform:rotate(180deg)}
+  .kat-hero{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;height:170px;border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px}
+  .kat-hero .kf-img{aspect-ratio:auto;height:100%}
+  .kat-hero .kf-emoji{font-size:64px}
+  @media (min-width:900px){.kat-hero{height:260px}}
+  a.q-opt{text-decoration:none;color:inherit}
+  .q-opt.toko:hover,.q-opt.toko:focus-visible{background:#fff}
+  .toko-mono{width:60px;height:60px;border-radius:12px;background:var(--brand-50);color:var(--brand-600);font-weight:800;font-size:19px;letter-spacing:-.02em;display:grid;place-items:center;flex:none}
+  .toko-head{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:16px;display:grid;gap:14px}
+  .toko-head-top{display:flex;gap:14px;align-items:center}
+  .toko-head h2{font-size:23px;line-height:1.2;letter-spacing:-.02em}
+  .toko-head-top p{font-size:13.5px;color:var(--muted);margin-top:2px}
+  .toko-ket{font-size:14.5px;color:var(--ink-2)}
+  .toko-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .toko-tags button{font-size:12.5px;font-weight:700;color:var(--ink-2);background:var(--bg);padding:5px 11px;border-radius:999px;border:0;cursor:pointer}
+  .toko-tags button:hover{background:var(--brand-50);color:var(--brand-600)}
+  .toko-head .note{margin-top:0}
+  .toko-head .btn{justify-self:start;flex:none}
+  .toko-actions{display:flex;flex-wrap:wrap;gap:8px}
+  .toko-actions .btn,.empty-grid .toko-actions .btn{flex:none;display:inline-flex}
+  .empty-grid .toko-actions{justify-content:center}
+  .pt-h{font-size:16px;line-height:1.3;margin:24px 0 8px}
+  .pt-hk{font-size:13px;color:var(--muted);margin:-4px 0 8px}
+  .pt-list{list-style:none;background:#fff;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+  .pt{display:flex;gap:12px;align-items:center;padding:12px 16px}
+  .pt + .pt{border-top:1px solid var(--line)}
+  .pt-body{flex:1;min-width:0}
+  .pt b{display:block;font-size:15px;line-height:1.3;letter-spacing:-.01em}
+  .pt b small{font-size:12.5px;font-weight:500;color:var(--muted);letter-spacing:0}
+  .pt p{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+  .pt .price{display:block;padding-top:4px}
+  .pt-act{flex:none}
+  .pt-add{height:36px;padding:0 14px;border-radius:10px;border:1.5px solid var(--brand);background:#fff;color:var(--brand-600);font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:6px;cursor:pointer;transition:background .15s,color .15s}
+  .pt-add svg{width:16px;height:16px}
+  .pt-add:hover,.pt-add:focus-visible{background:var(--brand);color:#fff}
+  .pt-out b,.pt-out .price{color:var(--muted)}
+  .pt-out .pt-add,.pt-out .pt-add:hover{border-color:var(--line);background:#fff;color:var(--muted);cursor:not-allowed}
+  .pt-qty{display:flex;align-items:center;height:36px;border:1.5px solid var(--brand);border-radius:10px;overflow:hidden}
+  .pt-qty button{width:34px;height:100%;border:0;background:var(--brand-50);color:var(--brand-600);font-size:20px;font-weight:800;line-height:1;cursor:pointer}
+  .pt-qty span{min-width:28px;text-align:center;font-weight:800;font-size:14.5px}
+  @media (min-width:900px){.pt b{font-size:16.5px}.pt p{font-size:13.5px}}
+
   /* ---------- Cara order ---------- */
   .steps{list-style:none;display:grid;gap:10px}
   @media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr);gap:16px}}
@@ -196,11 +272,12 @@
   .bnav .badge{top:6px;right:calc(50% - 24px)}
   @media (min-width:900px){.bnav{display:none}}
 
-  .cartbar{position:fixed;left:12px;right:12px;bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 10px);z-index:44;background:var(--brand);color:#fff;border-radius:14px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;border:0;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 14px 26px -10px rgba(228,70,15,.7);animation:rise .3s ease}
-  .cartbar span{display:flex;align-items:center;gap:10px}
-  .cartbar svg{width:20px;height:20px}
+  .cartbar,.orderbar{position:fixed;left:12px;right:12px;bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 10px);z-index:44;background:var(--brand);color:#fff;border-radius:14px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px;border:0;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 14px 26px -10px rgba(228,70,15,.7);animation:rise .3s ease}
+  .cartbar span,.orderbar span{display:flex;align-items:center;gap:10px}
+  .cartbar svg,.orderbar svg{width:20px;height:20px}
   @keyframes rise{from{transform:translateY(20px);opacity:0}}
-  @media (min-width:900px){.cartbar{display:none!important}}
+  body.has-order .cartbar{display:none!important}
+  @media (min-width:900px){.cartbar{display:none!important}.orderbar{left:50%;right:auto;width:440px;margin-left:-220px;bottom:24px}}
 
   /* ---------- Tombol WhatsApp mengambang ---------- */
   .wa-float{position:fixed;z-index:46;right:16px;bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 16px);width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,#2BD46F,#12924A);color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;box-shadow:0 12px 26px -8px rgba(18,146,74,.7);transition:bottom .25s ease,transform .2s ease}
@@ -209,9 +286,9 @@
   .wa-float .lbl{display:none}
   .wa-float::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;animation:ring 2.4s ease-out infinite}
   @keyframes ring{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6)}70%,100%{box-shadow:0 0 0 18px rgba(37,211,102,0)}}
-  body.has-cart .wa-float{bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 78px)}
+  body.has-cart .wa-float,body.has-order .wa-float{bottom:calc(var(--bnav) + env(safe-area-inset-bottom) + 78px)}
   @media (min-width:900px){
-    .wa-float,body.has-cart .wa-float{right:28px;bottom:28px;width:auto;height:58px;padding:0 22px 0 16px;border-radius:999px}
+    .wa-float,body.has-cart .wa-float,body.has-order .wa-float{right:28px;bottom:28px;width:auto;height:58px;padding:0 22px 0 16px;border-radius:999px}
     .wa-float .lbl{display:inline}
   }
 
@@ -231,8 +308,9 @@
     dialog.drawer[open]{animation:slide .28s cubic-bezier(.2,.9,.3,1)}
   }
   @keyframes slide{from{transform:translateX(48px);opacity:.3}}
-  .sh-img{height:210px;flex:none;position:relative;overflow:hidden}
-  .sh-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .sh-img{height:210px;flex:none;position:relative;overflow:hidden;display:grid;place-items:center}
+  .sh-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .sh-img .kf-emoji{font-size:64px}
   .x{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);cursor:pointer;display:grid;place-items:center;box-shadow:var(--sh)}
   .x svg{width:18px;height:18px}
   .sh-body{padding:18px 18px 10px;overflow:auto;flex:1;overscroll-behavior:contain}
@@ -280,11 +358,11 @@
   .link-btn{background:none;border:0;color:var(--brand-600);font-weight:700;font-size:13.5px;cursor:pointer;margin-left:auto;padding:6px}
   .cart-list{list-style:none;display:grid;gap:10px}
   .ci{display:flex;gap:12px;border:1px solid var(--line);border-radius:14px;padding:12px}
-  .ci-img{width:60px;height:60px;border-radius:12px;overflow:hidden;flex:none}
+  .ci-img{width:60px;height:60px;border-radius:12px;overflow:hidden;flex:none;text-align:center;line-height:60px;font-size:28px}
   .ci-img img{width:100%;height:100%;object-fit:cover;display:block}
   .ci-body{flex:1;min-width:0}
   .ci-body b{display:block;font-size:15px;line-height:1.3}
-  .ci-det{display:grid;gap:1px;margin-top:4px;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+  .ci-det{display:grid;gap:1px;margin-top:4px;font-size:13px;color:var(--muted);overflow-wrap:anywhere;white-space:pre-line}
   .ci-act{display:flex;gap:14px;margin-top:8px}
   .ci-act button{background:none;border:0;font-size:13px;font-weight:800;cursor:pointer;padding:0;color:var(--brand-600)}
   .ci-act button+button{color:var(--muted)}
@@ -337,6 +415,7 @@
       <input id="q" type="search" placeholder="Cari: ride, paket, makanan, UMKM…" autocomplete="off" enterkeyhint="search">
     </label>
     <nav class="hdr-nav" aria-label="Menu utama">
+      <a href="#jajan">Jajan</a>
       <a href="#layanan">Layanan</a>
       <a href="#cara">Cara Order</a>
       <a href="#faq">Bantuan</a>
@@ -352,7 +431,7 @@
   <h1 class="sr">Local Trans Tanggul — Jastip &amp; Ojek Online Lokal Jember</h1>
 
   <!-- Banner promo -->
-  <section class="wrap banners" aria-label="Sorotan layanan">
+  <section class="wrap banners home" aria-label="Sorotan layanan">
     <div class="bn-track" id="bnTrack">
       <div class="bn bn-1">
         <div>
@@ -384,21 +463,30 @@
   </section>
 
   <!-- Keunggulan -->
-  <section class="wrap trust" aria-label="Keunggulan">
+  <section class="wrap trust home" aria-label="Keunggulan">
     <div><i><svg aria-hidden="true"><use href="#i-chat"/></svg></i>Tanpa instal aplikasi</div>
     <div><i><svg aria-hidden="true"><use href="#i-tag"/></svg></i>Tanpa biaya tersembunyi</div>
     <div><i><svg aria-hidden="true"><use href="#i-store"/></svg></i>0% komisi UMKM</div>
     <div><i><svg aria-hidden="true"><use href="#i-pin"/></svg></i>Driver warga Jember</div>
   </section>
 
+  <!-- Jajan & Belanja: satu foto contoh per kategori, produk toko berupa teks (kategori di katalog.js, toko dari admin.html) -->
+  <section class="wrap sec home" id="jajan">
+    <div class="sec-h"><div><h2>Jajan &amp; Belanja</h2><p>Pilih kategori, lalu pilih toko. Gambar hanya ilustrasi.</p></div><span id="jajanCount"></span></div>
+    <div id="kfGrid"></div>
+  </section>
+
+  <!-- Halaman kategori & toko (#/k/… dan #/t/…) -->
+  <section class="wrap view" id="view" hidden></section>
+
   <!-- Kategori -->
-  <section class="wrap sec" id="kategori">
+  <section class="wrap sec home" id="kategori">
     <div class="sec-h"><h2>Kategori</h2></div>
     <div class="cats" id="cats" role="group" aria-label="Filter kategori"></div>
   </section>
 
   <!-- Katalog -->
-  <section class="wrap sec" id="layanan">
+  <section class="wrap sec home" id="layanan">
     <div class="sec-h"><h2 id="gridTitle">Semua Layanan</h2><span id="gridCount"></span></div>
     <div class="grid" id="grid"></div>
     <div class="empty-grid" id="gridEmpty" hidden>
@@ -410,7 +498,7 @@
   </section>
 
   <!-- Cara order -->
-  <section class="wrap sec" id="cara">
+  <section class="wrap sec home" id="cara">
     <div class="sec-h"><h2>Cara Order</h2><p>Semudah belanja online</p></div>
     <ol class="steps">
       <li><span class="n">1</span><div><h3>Pilih layanan</h3><p>Ride, kirim barang, titip makanan, atau belanja UMKM.</p></div></li>
@@ -420,12 +508,13 @@
   </section>
 
   <!-- FAQ -->
-  <section class="wrap sec" id="faq">
+  <section class="wrap sec home" id="faq">
     <div class="sec-h"><h2>Pertanyaan Umum</h2></div>
     <div class="faq">
       <details><summary>Berapa tarifnya?</summary><p>Tarif diinformasikan lewat WhatsApp sebelum driver berangkat. Harga jujur dan ramah di kantong, tanpa biaya tersembunyi.</p></details>
       <details><summary>Apakah harus instal aplikasi?</summary><p>Tidak. Semua pesanan cukup lewat chat WhatsApp. Halaman ini hanya membantu menyusun pesananmu supaya rapi.</p></details>
       <details><summary>Apakah harga makanan dan belanjaan dinaikkan?</summary><p>Tidak. Kami tidak mengambil komisi tambahan dari harga makanan atau produk UMKM yang kamu pesan. Harga belanjaan sama dengan harga toko.</p></details>
+      <details><summary>Kenapa gambar di Jajan &amp; Belanja sama untuk semua toko?</summary><p>Gambar di sana adalah gambar contoh per kategori, bukan foto produk asli tiap toko. Isi dan tampilan pesanan mengikuti toko yang kamu pilih.</p></details>
       <details><summary>Siapa driver Local Trans?</summary><p>Mitra driver kami adalah warga lokal Jember yang ramah, sopan, dan menguasai setiap sudut kota.</p></details>
     </div>
   </section>
@@ -478,6 +567,11 @@
   <span>Checkout <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
 </button>
 
+<button class="orderbar" type="button" id="orderbar" hidden>
+  <span><svg aria-hidden="true"><use href="#i-cart"/></svg><span id="orderbarText"></span></span>
+  <span>Lanjut <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+</button>
+
 <nav class="bnav" aria-label="Navigasi bawah">
   <a href="#top" class="on"><svg aria-hidden="true"><use href="#i-home"/></svg>Beranda</a>
   <a href="#kategori"><svg aria-hidden="true"><use href="#i-grid"/></svg>Kategori</a>
@@ -491,7 +585,7 @@
 
 <!-- Detail layanan -->
 <dialog class="sheet" id="sheet" aria-labelledby="shTitle">
-  <div class="sh-img" id="shImg"><img id="shPhoto" alt="">
+  <div class="sh-img" id="shImg"><img id="shPhoto" alt=""><span class="kf-emoji" id="shEmoji" aria-hidden="true" hidden></span><span class="kf-label" id="shLabel" hidden>Ilustrasi</span>
     <button class="x" type="button" data-close aria-label="Tutup"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
   </div>
   <div class="sh-body">
@@ -559,6 +653,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="katalog.js"></script>
 <script>
 (() => {
   // Ganti nomor di sini (format internasional tanpa + dan spasi).
@@ -651,13 +746,48 @@
       tpl: 'lain' }
   ];
 
+  // Item keranjang untuk pesanan dari halaman toko (template Food). Selalu ada,
+  // walaupun daftar layanan di atas diganti dari Firestore.
+  const TOKO_ITEM = { id: '_toko', cat: 'makanan', name: 'Pesanan toko', sub: 'Food', emoji: '🍽️', tone: '#FFF0C2', img: '',
+    desc: '', price: 'Harga toko + ongkir', tpl: 'food' };
   let byId = {};
   const indexProducts = () => {
     PRODUCTS.forEach(p => { p.fields = TEMPLATES[p.tpl].fields; });
-    byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+    TOKO_ITEM.fields = TEMPLATES.food.fields;
+    byId = Object.fromEntries([...PRODUCTS, TOKO_ITEM].map(p => [p.id, p]));
   };
   indexProducts();
   const catName = id => (CATS.find(c => c.id === id) || {}).name || '';
+
+  // Kategori dan foto contohnya dari katalog.js. Toko & menu dari Firestore (diisi
+  // driver lewat admin.html); toko di katalog.js jadi cadangan. Produk toko tidak
+  // punya foto; fotonya dipinjam dari foto contoh kategori.
+  const DATA = window.KATALOG || {};
+  const KAT = (Array.isArray(DATA.kategori) ? DATA.kategori : []).filter(k => k && k.id && k.nama);
+  const katById = Object.fromEntries(KAT.map(k => [k.id, k]));
+  let TOKO = [];
+  let tokoById = {};
+  const indexToko = list => {
+    TOKO = (Array.isArray(list) ? list : []).filter(t => t && t.id && t.nama);
+    tokoById = Object.fromEntries(TOKO.map(t => [t.id, t]));
+  };
+  indexToko(DATA.toko);
+  const tokoIn = id => TOKO.filter(t => (t.kategori || []).includes(id));
+  const menuOf = t => (Array.isArray(t.menu) ? t.menu : []).filter(b => b && Array.isArray(b.produk));
+  const countOf = t => menuOf(t).reduce((n, b) => n + b.produk.length, 0);
+  const rupiah = n => +n > 0 ? 'Rp' + (+n).toLocaleString('id-ID') : 'Tanya harga';
+  // Link katalog WhatsApp milik toko; hanya alamat resmi WhatsApp yang lolos (lihat katalog.js).
+  const katalogUrl = raw => (typeof window.linkKatalogWA === 'function' ? window.linkKatalogWA(raw) : '');
+  const initials = s => s.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+  // Tampilan item: layanan biasa, atau pesanan toko yang memakai foto contoh kategorinya.
+  function look(id, ctx) {
+    const p = byId[id];
+    if (!ctx) return { name: p.name, img: p.img, tone: p.tone, emoji: p.emoji };
+    const t = tokoById[ctx.toko];
+    const k = katById[ctx.kat] || (t && katById[(t.kategori || [])[0]]) || {};
+    return { name: t ? t.nama : (ctx.nama || p.name), img: (k.foto || [])[0] || '', tone: k.tone || p.tone, emoji: k.emoji || p.emoji, kat: k.nama };
+  }
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const waUrl = text => 'https://wa.me/' + NUM + (text ? '?text=' + encodeURIComponent(text) : '');
@@ -732,6 +862,7 @@
 
   const q = $('#q');
   q.addEventListener('input', () => {
+    if (document.body.classList.contains('in-view')) location.hash = '#layanan';
     query = q.value;
     if (query && filter !== 'semua') { filter = 'semua'; renderCats(); }
     renderGrid();
@@ -772,24 +903,36 @@
 
   // ---------- Detail layanan ----------
   let sheetId = null;
+  let sheetCtx = null;
   let editIndex = -1;
   let reopenCart = false;
   const shFields = $('#shFields');
-  function openSheet(id, idx = -1) {
+  // ctx diisi untuk pesanan dari halaman toko: { toko, kat, nama, price, data }.
+  function openSheet(id, idx = -1, ctx = null) {
     const p = byId[id];
     if (!p) return;
+    const it = idx >= 0 ? cart[idx] : null;
+    if (!ctx && it && it.toko) ctx = it;
     sheetId = id;
+    sheetCtx = ctx;
     editIndex = idx;
-    const data = idx >= 0 ? cart[idx].data : { nama: store.get('localtrans_nama', '') };
-    $('#shImg').style.background = p.tone;
-    $('#shPhoto').src = p.img;
-    $('#shPhoto').alt = p.name;
-    $('#shCat').textContent = catName(p.cat) + ' · ' + p.sub;
-    $('#shBadge').textContent = p.badge || '';
-    $('#shBadge').hidden = !p.badge;
-    $('#shTitle').textContent = p.name;
-    $('#shDesc').textContent = p.desc;
-    $('#shPrice').textContent = p.price;
+    const data = it ? it.data : Object.assign({ nama: store.get('localtrans_nama', '') }, ctx && ctx.data);
+    const v = look(id, ctx);
+    $('#shImg').style.background = v.tone;
+    $('#shPhoto').hidden = !v.img;
+    if (v.img) $('#shPhoto').src = v.img; else $('#shPhoto').removeAttribute('src');
+    $('#shPhoto').alt = ctx ? '' : p.name;
+    $('#shEmoji').textContent = v.emoji || '';
+    $('#shEmoji').hidden = !!v.img;
+    $('#shLabel').hidden = !(ctx && v.img);
+    $('#shCat').textContent = ctx ? (v.kat || catName(p.cat)) + ' · ' + p.sub : catName(p.cat) + ' · ' + p.sub;
+    $('#shBadge').textContent = ctx ? '' : (p.badge || '');
+    $('#shBadge').hidden = !!ctx || !p.badge;
+    $('#shTitle').textContent = ctx ? 'Pesan dari ' + v.name : p.name;
+    $('#shDesc').textContent = ctx
+      ? 'Pilihan saus, bumbu, atau varian bisa ditulis di kolom "Barang yang di beli".' + (v.img ? ' Gambar hanya ilustrasi kategori.' : '')
+      : p.desc;
+    $('#shPrice').textContent = ctx ? (ctx.price || 'Harga toko + ongkir') : p.price;
     shFields.innerHTML = '<div class="fields-title">Detail pesanan <small>(boleh dilengkapi di chat)</small></div>' +
       p.fields.map(f => fieldHTML(f, 'f_')).join('');
     p.fields.forEach(f => { shFields.querySelector(`[name="${f.k}"]`).value = data[f.k] || ''; });
@@ -814,8 +957,13 @@
       cart[editIndex].data = data;
       toast('Perubahan disimpan');
     } else {
-      cart.push({ id: sheetId, data });
-      toast(byId[sheetId].name + ' masuk keranjang');
+      const item = { id: sheetId, data };
+      if (sheetCtx) {
+        Object.assign(item, { toko: sheetCtx.toko, kat: sheetCtx.kat, nama: sheetCtx.nama });
+        clearPick(sheetCtx.toko);
+      }
+      cart.push(item);
+      toast(look(sheetId, sheetCtx).name + ' masuk keranjang');
     }
     saveCart();
     renderCart();
@@ -842,11 +990,12 @@
     $('#checkout').disabled = !n;
     cartList.innerHTML = cart.map((it, i) => {
       const p = byId[it.id];
+      const v = look(it.id, it.toko ? it : null);
       const det = p.fields.filter(f => it.data[f.k]).map(f => `<span>${esc(f.l)}: ${esc(it.data[f.k])}</span>`).join('')
         || '<span>Detail belum diisi, bisa dijelaskan di chat.</span>';
       return `<li class="ci">
-        <span class="ci-img" style="background:${p.tone}" aria-hidden="true"><img src="${p.img}" alt=""></span>
-        <div class="ci-body"><b>${esc(p.name)}</b><div class="ci-det">${det}</div>
+        <span class="ci-img" style="background:${esc(v.tone)}" aria-hidden="true">${v.img ? `<img src="${esc(v.img)}" alt="">` : esc(v.emoji || '')}</span>
+        <div class="ci-body"><b>${esc(v.name)}</b><div class="ci-det">${det}</div>
           <div class="ci-act"><button type="button" data-edit="${i}">Ubah</button><button type="button" data-del="${i}">Hapus</button></div>
         </div></li>`;
     }).join('');
@@ -958,6 +1107,196 @@
     toastTimer = setTimeout(() => t.classList.remove('show'), 1900);
   }
 
+  // ---------- Jajan & Belanja: kategori (foto contoh) -> toko -> produk teks ----------
+  // Gambar yang gagal dimuat (salah ketik nama file) diganti emoji supaya kartu tidak rusak.
+  window.__imgGagal = img => {
+    const w = img.parentNode;
+    w.innerHTML = `<span class="kf-emoji" aria-hidden="true">${w.dataset.emoji || '🛍️'}</span>`;
+  };
+  const katMedia = (k, i = 0) => (k.foto || [])[i]
+    ? `<img src="${esc(k.foto[i])}" alt="" loading="lazy" width="800" height="600" onerror="__imgGagal(this)"><span class="kf-label">Ilustrasi</span>`
+    : `<span class="kf-emoji" aria-hidden="true">${esc(k.emoji || '🛍️')}</span>`;
+  const katImg = (k, i = 0) => `<div class="kf-img" style="background:${esc(k.tone || '#EEF0F3')}" data-emoji="${esc(k.emoji || '🛍️')}">${katMedia(k, i)}</div>`;
+  const arrow = '<svg aria-hidden="true"><use href="#i-arrow"/></svg>';
+
+  function renderJajan() {
+    $('#jajan').hidden = !KAT.length;
+    $('#jajanCount').textContent = KAT.length + ' kategori';
+    const tile = k => {
+      const n = tokoIn(k.id).length;
+      return `
+        <a class="kf" href="#/k/${encodeURIComponent(k.id)}">${katImg(k)}
+          <div class="kf-body"><div><h4>${esc(k.nama)}</h4><small>${n ? n + ' toko' : 'Belum ada toko'}</small></div>${arrow}</div>
+        </a>`;
+    };
+    // Urutan kelompok mengikuti urutan pertama kali muncul di katalog.js.
+    const groups = [...new Set(KAT.map(k => k.grup || 'Lainnya'))];
+    $('#kfGrid').innerHTML = groups.map(g => {
+      const list = KAT.filter(k => (k.grup || 'Lainnya') === g);
+      return `
+      <div class="kf-group">
+        ${groups.length > 1 ? `<h3 class="kf-gh">${esc(g)} <span>${list.length}</span></h3>` : ''}
+        <div class="kf-row">${list.map(tile).join('')}</div>
+      </div>`;
+    }).join('');
+  }
+  // Layanan titip beli untuk kategori yang belum punya toko.
+  const titipId = k => byId[k.layanan] ? k.layanan : byId.makanan ? 'makanan' : (PRODUCTS.find(p => p.tpl === 'food') || TOKO_ITEM).id;
+
+  const view = $('#view');
+  const pick = {};      // pilihan produk per toko: { tokoId: { 'bagian-produk': jumlah } }
+  let fromKat = null;   // kategori terakhir yang dibuka, untuk tombol kembali di halaman toko
+  let curToko = null;
+  let homeY = 0;
+  const katOf = t => (t.kategori || []).includes(fromKat) ? fromKat : (t.kategori || [])[0];
+  const prod = (t, key) => { const [b, i] = key.split('-').map(Number); const m = menuOf(t)[b]; return m && m.produk[i]; };
+
+  function renderKat(k) {
+    fromKat = k.id;
+    const list = tokoIn(k.id);
+    const n = Math.min((k.foto || []).length, 2) || 1;
+    view.innerHTML = `
+      <a class="v-back" href="#jajan">${arrow}Beranda</a>
+      <div class="kat-hero">${Array.from({ length: n }, (_, i) => katImg(k, i)).join('')}</div>
+      <div class="sec-h"><h2 tabindex="-1">${esc(k.nama)}</h2><span>${list.length} toko</span></div>
+      ${list.length ? `<div class="q-list">${list.map(t => `
+        <a class="q-opt toko" href="#/t/${encodeURIComponent(t.id)}">
+          <span class="toko-mono" aria-hidden="true">${esc(initials(t.nama))}</span>
+          <span><b>${esc(t.nama)}</b><small>${esc(t.ket ? t.ket + ' · ' : '')}${countOf(t)} produk</small></span>${arrow}
+        </a>`).join('')}</div>` : `
+        <div class="empty-grid">
+          <b>Belum ada toko di kategori ini</b>
+          <p>Tetap bisa titip beli. Tulis mau beli apa dan di mana, driver yang belikan.</p>
+          <button class="btn btn-brand" type="button" data-open="${esc(titipId(k))}" style="display:inline-flex;flex:none">Titip beli ${esc(k.nama)}</button>
+        </div>`}`;
+  }
+
+  const actHTML = (t, key) => {
+    const p = prod(t, key);
+    if (p.habis) return '<button class="pt-add" type="button" disabled>Habis</button>';
+    const q = (pick[t.id] || {})[key] || 0;
+    return q
+      ? `<div class="pt-qty" role="group" aria-label="Jumlah ${esc(p.nama)}"><button type="button" data-q="-1" aria-label="Kurangi">−</button><span>${q}</span><button type="button" data-q="1" aria-label="Tambah">+</button></div>`
+      : `<button class="pt-add" type="button" data-q="1" aria-label="Pilih ${esc(p.nama)}"><svg aria-hidden="true"><use href="#i-plus"/></svg>Pilih</button>`;
+  };
+
+  function renderToko(t) {
+    const k = katById[katOf(t)] || {};
+    const menu = menuOf(t);
+    const wa = katalogUrl(t.katalog);
+    const katBtn = wa ? `<a class="btn btn-outline" href="${esc(wa)}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-store"/></svg>Lihat menu &amp; foto di WhatsApp</a>` : '';
+    const titipBtn = `<button class="btn btn-brand" type="button" data-titip>Pesan dari toko ini</button>`;
+    view.innerHTML = `
+      <a class="v-back" href="${k.id ? '#/k/' + encodeURIComponent(k.id) : '#jajan'}">${arrow}${esc(k.nama || 'Beranda')}</a>
+      <section class="toko-head">
+        <div class="toko-head-top"><span class="toko-mono" aria-hidden="true">${esc(initials(t.nama))}</span>
+          <div><h2 tabindex="-1">${esc(t.nama)}</h2><p>${esc([k.nama, t.alamat].filter(Boolean).join(' · '))}</p></div></div>
+        ${t.ket ? `<p class="toko-ket">${esc(t.ket)}</p>` : ''}
+        ${menu.length > 1 ? `<div class="toko-tags">${menu.map((b, i) => `<button type="button" data-jump="${i}">${esc(b.bagian || 'Menu')}</button>`).join('')}</div>` : ''}
+        <div class="note"><svg aria-hidden="true"><use href="#i-info"/></svg><span>${wa ? 'Foto dan menu lengkap ada di katalog WhatsApp toko ini. ' : 'Produk di toko ini tanpa foto. '}Harga dari toko, ongkir diinformasikan lewat WhatsApp.</span></div>
+        <div class="toko-actions">
+          ${katBtn}
+          <a class="btn btn-wa" href="${esc(waUrl('Halo Local Trans Tanggul, saya mau tanya menu ' + t.nama + '.'))}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Tanya dulu</a>
+        </div>
+      </section>
+      ${menu.map((b, bi) => `
+        <h3 class="pt-h" id="menu-${bi}">${esc(b.bagian || 'Menu')}</h3>
+        ${b.ket ? `<p class="pt-hk">${esc(b.ket)}</p>` : ''}
+        <ul class="pt-list">${b.produk.map((p, pi) => `
+          <li class="pt${p.habis ? ' pt-out' : ''}" data-k="${bi}-${pi}">
+            <div class="pt-body"><b>${esc(p.nama)}${p.varian ? ` <small>${esc(p.varian)}</small>` : ''}</b>${p.ket ? `<p>${esc(p.ket)}</p>` : ''}<span class="price">${rupiah(p.harga)}</span></div>
+            <div class="pt-act">${actHTML(t, bi + '-' + pi)}</div>
+          </li>`).join('')}
+        </ul>`).join('')}
+      ${menu.length ? '' : wa
+        ? `<div class="empty-grid" style="margin-top:16px"><b>Menu lengkap ada di katalog WhatsApp</b><p>Lihat menu dan fotonya lewat tombol di atas, lalu tulis pesananmu di sini.</p><div class="toko-actions">${titipBtn}</div></div>`
+        : `<div class="empty-grid" style="margin-top:16px"><b>Menu belum diisi</b><p>Tanya menunya lewat WhatsApp dulu, atau langsung tulis pesananmu.</p><div class="toko-actions">${titipBtn}</div></div>`}`;
+  }
+
+  view.addEventListener('click', e => {
+    if (e.target.closest('[data-titip]') && curToko) {
+      const t = curToko;
+      openSheet(TOKO_ITEM.id, -1, { toko: t.id, kat: katOf(t), nama: t.nama, price: 'Harga toko + ongkir', data: { tempat: t.nama } });
+      return;
+    }
+    const j = e.target.closest('[data-jump]');
+    if (j) { document.getElementById('menu-' + j.dataset.jump).scrollIntoView(); return; }
+    const b = e.target.closest('[data-q]');
+    if (!b || !curToko) return;
+    const li = b.closest('[data-k]');
+    const key = li.dataset.k;
+    const sel = pick[curToko.id] || (pick[curToko.id] = {});
+    const q = Math.max(0, (sel[key] || 0) + Number(b.dataset.q));
+    if (q) sel[key] = q; else delete sel[key];
+    const act = li.querySelector('.pt-act');
+    act.innerHTML = actHTML(curToko, key);
+    // Fokus tetap di tombol yang setara supaya nyaman dipakai dengan keyboard.
+    const f = act.querySelector(q ? `[data-q="${b.dataset.q}"]` : '[data-q]');
+    if (f) f.focus();
+    renderOrderBar();
+  });
+
+  const orderLines = t => Object.entries(pick[t.id] || {}).map(([key, q]) => ({ p: prod(t, key), q })).filter(x => x.p && !x.p.habis);
+  const orderSum = lines => lines.reduce((s, x) => s + (+x.p.harga > 0 ? x.p.harga * x.q : 0), 0);
+  function renderOrderBar() {
+    const lines = curToko ? orderLines(curToko) : [];
+    const n = lines.reduce((s, x) => s + x.q, 0);
+    $('#orderbar').hidden = !n;
+    document.body.classList.toggle('has-order', n > 0);
+    if (n) $('#orderbarText').textContent = n + ' item' + (orderSum(lines) ? ' · ' + rupiah(orderSum(lines)) : '');
+  }
+  function clearPick(id) {
+    delete pick[id];
+    if (curToko && curToko.id === id) renderToko(curToko);
+    renderOrderBar();
+  }
+  // Pilihan produk dirangkum ke template Food: barang, tempat beli, dan jumlah sudah terisi.
+  $('#orderbar').addEventListener('click', () => {
+    const t = curToko;
+    const lines = t ? orderLines(t) : [];
+    if (!lines.length) return;
+    const n = lines.reduce((s, x) => s + x.q, 0);
+    const sum = orderSum(lines);
+    openSheet(TOKO_ITEM.id, -1, {
+      toko: t.id, kat: katOf(t), nama: t.nama,
+      price: sum ? 'Perkiraan ' + rupiah(sum) + ' + ongkir' : 'Harga toko + ongkir',
+      data: {
+        barang: lines.map(x => `${x.q}x ${x.p.nama}${x.p.varian ? ' (' + x.p.varian + ')' : ''}${+x.p.harga > 0 ? ' @' + rupiah(x.p.harga) : ''}`).join('\n'),
+        tempat: t.nama,
+        jumlah: n + ' item' + (sum ? ', perkiraan ' + rupiah(sum) : '')
+      }
+    });
+  });
+
+  function route() {
+    const m = /^#\/([kt])\/(.+)$/.exec(location.hash);
+    const id = m ? decodeURIComponent(m[2]) : '';
+    const k = m && m[1] === 'k' ? katById[id] : null;
+    const t = m && m[1] === 't' ? tokoById[id] : null;
+    const was = document.body.classList.contains('in-view');
+    // Data toko dari Firestore datang belakangan: halaman yang sama digambar ulang tanpa lompat ke atas.
+    const same = was && view.dataset.hash === location.hash;
+    if ((k || t) && !was) homeY = window.scrollY;
+    curToko = t || null;
+    document.body.classList.toggle('in-view', !!(k || t));
+    document.body.classList.toggle('in-toko', !!t);
+    view.hidden = !(k || t);
+    view.dataset.hash = k || t ? location.hash : '';
+    if (k) renderKat(k);
+    else if (t) renderToko(t);
+    else view.innerHTML = '';
+    if ((k || t) && !same) {
+      window.scrollTo(0, 0);
+      view.querySelector('h2').focus({ preventScroll: true });
+    } else if (was && !(k || t)) {
+      // Kembali ke beranda: ke bagian yang dituju (#faq, #jajan, …) atau ke posisi semula.
+      const el = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
+      if (el) el.scrollIntoView(); else window.scrollTo(0, homeY);
+    }
+    renderOrderBar();
+  }
+  window.addEventListener('hashchange', route);
+
   // ---------- Banner geser (HP) ----------
   const track = $('#bnTrack');
   const dots = [...document.querySelectorAll('#bnDots button')];
@@ -999,9 +1338,12 @@
   $('#yr').textContent = new Date().getFullYear();
   renderGrid();
   renderCart();
+  renderJajan();
+  route();
 
   // ---------- Katalog dari Firestore ----------
-  // Daftar di atas jadi cadangan bila Firebase belum diisi, kosong, atau gagal dimuat.
+  // Layanan: daftar di atas jadi cadangan bila Firebase belum diisi, kosong, atau gagal dimuat.
+  // Toko & menu: diisi driver lewat admin.html; toko di katalog.js jadi cadangannya.
   (async () => {
     try {
       const { firebaseConfig, SDK, isConfigured } = await import('./firebase-config.js');
@@ -1011,13 +1353,21 @@
         import(SDK + '/firebase-firestore.js')
       ]);
       const db = fs.getFirestore(initializeApp(firebaseConfig));
-      const snap = await fs.getDocs(fs.query(fs.collection(db, 'products'), fs.orderBy('order')));
-      const list = snap.docs
-        .map(d => ({ id: d.id, ...d.data() }))
-        .filter(p => p.active !== false && TEMPLATES[p.tpl] && p.name);
-      if (!list.length) return;
-      PRODUCTS = list;
-      indexProducts();
+      const read = name => fs.getDocs(fs.query(fs.collection(db, name), fs.orderBy('order')))
+        .then(snap => snap.docs.map(d => ({ id: d.id, ...d.data() })))
+        .catch(e => { console.warn(`Koleksi ${name} tidak dimuat, pakai cadangan.`, e); return []; });
+      const [prods, toko] = await Promise.all([read('products'), read('toko')]);
+      const list = prods.filter(p => p.active !== false && TEMPLATES[p.tpl] && p.name);
+      if (list.length) {
+        PRODUCTS = list;
+        indexProducts();
+      }
+      const shops = toko.filter(t => t.active !== false && t.nama);
+      if (shops.length) {
+        indexToko(shops);
+        renderJajan();
+        route();
+      }
       // Pulihkan isi keranjang yang id-nya baru dikenali setelah katalog termuat.
       cart = (cart.length === cartUntouched.length && cart.every((it, i) => it === cartUntouched[i]) ? rawCart : cart).filter(validItem);
       saveCart();
